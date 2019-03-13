@@ -1,0 +1,7 @@
+13/3/2019 21:04
++ Add struct CourseList in "Course.h"
++ Add bool importCourse(string fileName, CourseList &list); ("FileManage.h")
++ Add bool exportCourse(string fileName, const CourseList &list); ("FileManage.h")
++ Add struct ClassList in "Class.h"
++ Add bool matchClass(string anotherClassName) in struct Class.
++ Edit struct Course in "Course.h" to be: just store, with no reason need to extract data from another list.

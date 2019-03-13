@@ -1,0 +1,5 @@
+Some nonsense header for consistency.
+1,cs161,duong loi cua dinh,18ctt5,dbtien,01/01/1975,30/04/1975,Mon,13:30,15:30,I44
+2,cs162,duong loi cua dinh,18ctt5,dbtien,01/01/1975,30/04/1975,Tue,13:30,15:30,I45
+3,cs163,duong loi cua dinh,18ctt5,dbtien,01/01/1975,30/04/1975,Wed,13:30,15:30,I46
+4,cs164,duong loi cua dinh,18ctt5,dbtien,01/01/1975,30/04/1975,Thu,13:30,15:30,I47
