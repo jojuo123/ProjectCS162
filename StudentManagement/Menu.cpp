@@ -43,7 +43,7 @@ int startMenu()
 	return x;
 }
 
-void staffMenu()
+int staffMenu()
 {
 	system("CLS");
 	cout << "<<MENU>>" << endl;
@@ -51,9 +51,11 @@ void staffMenu()
 	cout << "2.Course" << endl;
 	cout << "3.Scoreboard" << endl;
 	cout << "4.Attendance list" << endl;
+	int x; cin>>x;
+	return x;
 }
 
-void lecturerMenu()
+int lecturerMenu()
 {
 	system("cls");
 	cout << "<< MENU >>" << endl;
@@ -61,9 +63,11 @@ void lecturerMenu()
 	cout << "2.View list of student of a course" << endl;
 	cout << "3.Attendance list" << endl;//view and edit(of a course)
 	cout << "4.Scoreboard" << endl;
+	int x; cin>>x;
+	return x;
 }
 
-void studentMenu()
+int studentMenu()
 {
 	system("cls");
 	cout << "<<MENU>>" << endl;
@@ -71,5 +75,31 @@ void studentMenu()
 	cout << "2.View check-in result" << endl;
 	cout << "3.View schedule" << endl;
 	cout << "4.View score" << endl;
+	int x; cin>>x;
+	return x;
 }
 
+int roleSelectMenu () {
+	system("cls");
+	cout<<"Select your role:"<<endl;
+	cout<<"1.Staff"<<endl;
+	cout<<"2.Lecturer"<<endl;
+	cout<<"3.Student"<<endl;
+	cout<<"Enter your choice: "<<endl;
+	int x; cin>>x;
+	return x;
+}
+
+int staffClassMenu () {
+	system("cls");
+	cout<<"Staff > Class"<<endl;
+	cout<<"1.Import students from CSV file"<<endl;
+	cout<<"2.Add a student to a class"<<endl;
+	cout<<"3.Edit a student"<<endl;
+	cout<<"4.Remove a student"<<endl;
+	cout<<"5.Change class of a student"<<endl;
+	cout<<"6.View list of classes"<<endl;
+	cout<<"7.View list of students in a class"<<endl;
+	int x; cin>>x;
+	return x;
+}

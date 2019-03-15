@@ -11,9 +11,10 @@ using namespace std;
 void TextColor(int x);
 void startScreen();
 int startMenu();
-int startMenu();
-void staffMenu();
-void lecturerMenu();
-void studentMenu();
+int staffMenu();
+int lecturerMenu();
+int studentMenu();
+int roleSelectMenu();
+int staffClassMenu ();
 
 #endif // !SCREEN_H_
