@@ -1,4 +1,5 @@
 #include "Screen.h"
+#include <string>
 
 void TextColor(int x)
 {
@@ -102,4 +103,17 @@ int staffClassMenu () {
 	cout<<"7.View list of students in a class"<<endl;
 	int x; cin>>x;
 	return x;
+}
+
+bool studentLoginScreen (string &username, string &password, Global &global) {
+	cout<<"Username: "; 
+	cin.ignore(9999,'\n');
+	getline(cin, username);
+	cout<<"Password: "; 
+	getline(cin, password);
+
+	int res = global.stuList.Login(username, password);
+	if (res == -1) return false;
+	bool ret = global.stuList.GetStudentByNo(res, global.currentStudent);
+	return ret;
 }

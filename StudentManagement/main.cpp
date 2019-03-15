@@ -16,10 +16,11 @@
 #include <vector>
 #include <sstream>
 #include "FileManage.h"
+#include "Screen.h"
 
 using namespace std;
 
-#define TESTING_PHASE
+//#define TESTING_PHASE
 
 void test() {
 	{ //for testing importCourse and exportCourse
@@ -36,9 +37,20 @@ int main()
 {
 #ifdef TESTING_PHASE
 	test();
-#elif
-	//Do real thing
 #endif
-	//importStudentFile("18CTT5.csv");
+	//Do real thing
+	Global global;
+	for (global.currentRole = roleSelectMenu(); global.currentRole<1 || global.currentRole>3; global.currentRole=roleSelectMenu());
+	if (global.currentRole == 3) { //student
+		bool x = studentLoginScreen(global.username, global.password, global);
+		if (x) {
+			studentMenu();
+		}
+		else {
+			cout<<"Login failed.";
+		}
+	}
+
+	importStudentFile("18CTT5.csv");
 	return 0;
 }

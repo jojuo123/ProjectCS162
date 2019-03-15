@@ -7,7 +7,6 @@
 #include <vector>
 #include "Student.h"
 #include "Course.h"
-#include "Global.h"
 using namespace std;
 
 struct Class

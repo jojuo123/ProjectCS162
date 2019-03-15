@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Global.h"
 using namespace std;
 
 struct Attendance

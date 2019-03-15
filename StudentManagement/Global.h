@@ -5,11 +5,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
+#include "Student.h"
+#include "StudentList.h"
 
+using namespace std;
+struct Student;
+struct StudentList;
 struct Global
 {
+	int currentRole;
+	string username, password;
+	Student currentStudent;
+	StudentList stuList;
 
+	Global() {
+		stuList.importFromFile("student.txt");
+	}
 };
 
 

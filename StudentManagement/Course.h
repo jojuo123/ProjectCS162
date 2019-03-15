@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include "Student.h"
-#include "Global.h"
 
 using namespace std;
 
@@ -31,7 +30,7 @@ struct Course
 	//int classNo;
 	string className;
 
-	bool Update(Global &global, Course newInformation);
+	//bool Update(Global &global, Course newInformation);
 	bool RemoveStudent(int stuNo);
 	bool AddStudent(int studentNo);
 	bool RemoveStudent(string stuId);

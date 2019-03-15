@@ -12,7 +12,6 @@
 #include "Student.h"
 #include "Course.h"
 #include "Lecturer.h"
-#include "Global.h"
 #include "LecturerList.h"
 #include "Scoreboard.h"
 #include "Semester.h"

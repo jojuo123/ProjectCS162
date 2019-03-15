@@ -16,8 +16,8 @@ struct Lecturer
 	string name;
     vector<Course> course;
 
-	bool Login(string username, string password, Global &global);
-	bool Update(Global &global, string newPassword, string newName);
+	//bool Login(string username, string password, Global &global);
+	//bool Update(Global &global, string newPassword, string newName);
 	vector<Course> GetCoursesList();
 };
 

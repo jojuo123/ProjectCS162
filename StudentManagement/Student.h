@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include "Course.h"
-#include "Global.h"
+//#include "Global.h"
 using namespace std;
 
 struct Course;
@@ -18,14 +18,16 @@ struct Student
 	string password;
 	string firstName;
 	string lastName;
-	char gender[2];
+	char gender;
 	string DoB; //dd/mm/yyyy
 	int classID;
 	vector<Course> course;
 
-	bool Login(string username, string password, Global &global);
-	bool Update(Global &global, string newPassword, string newFirstName, string newLastName, char newGender, string newDOB, int newClassNo);
+	
+	//bool Update(string newPassword, string newFirstName, string newLastName, char newGender, string newDOB, int newClassNo);
 	vector<Course> GetCoursesList();
+
+	bool matchNo (int anotherNo);
 };
 
 #endif
