@@ -44,7 +44,8 @@ int main()
 	if (global.currentRole == 3) { //student
 		bool x = studentLoginScreen(global.username, global.password, global);
 		if (x) {
-			studentMenu();
+		if(	studentMenu()==5)
+			studentProfile(global);//test
 		}
 		else {
 			cout<<"Login failed.";

@@ -76,6 +76,8 @@ int studentMenu()
 	cout << "2.View check-in result" << endl;
 	cout << "3.View schedule" << endl;
 	cout << "4.View score" << endl;
+	cout << "5.View profile info" << endl;
+	cout << "6.Log out" << endl;
 	int x; cin>>x;
 	return x;
 }
@@ -116,4 +118,16 @@ bool studentLoginScreen (string &username, string &password, Global &global) {
 	if (res == -1) return false;
 	bool ret = global.stuList.GetStudentByNo(res, global.currentStudent);
 	return ret;
+}
+
+void studentProfile(Global &global)
+{
+	Student a = global.currentStudent;
+	system("cls");
+	cout << "<Student>" << endl;
+	cout << "ID: " << a.ID << endl;
+	cout << "Name: " << a.firstName << " " << a.lastName << endl;
+	cout << "Gender: " << a.gender << endl;
+	cout << "Date Of Birth: " << a.DoB << endl;
+	cout << "Class: " << a.classID << endl;
 }

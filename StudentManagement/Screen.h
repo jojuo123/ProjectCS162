@@ -17,7 +17,8 @@ int lecturerMenu();
 int studentMenu();
 int roleSelectMenu();
 int staffClassMenu ();
-bool studentLoginScreen (string &username, string &password, Global &global);
+bool studentLoginScreen(string &username, string &password, Global &global);
+void studentProfile(Global &global);
 
 
 #endif // !SCREEN_H_
