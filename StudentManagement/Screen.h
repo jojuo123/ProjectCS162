@@ -10,6 +10,11 @@
 using namespace std;
 
 void TextColor(int x);
+void gotoxy(int x, int y);
+void resizeScreen(int width, int height);
+void getlinePassword(string &password);
+
+
 void startScreen();
 int startMenu();
 int staffMenu();
