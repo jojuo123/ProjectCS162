@@ -1,5 +1,15 @@
 #include "StudentList.h"
 
+string StudentList::eraseAllSlash(string str)
+{
+	string tmp = "";
+	for (char c : str)
+	{
+		if (c != '/') tmp += c;
+	}
+	return tmp;
+}
+
 int StudentList::Login(string username, string password) {
 	for (int i=0; i<(int)students.size(); ++i) {
 		if (students[i].ID == username && students[i].password == password)
@@ -7,6 +17,7 @@ int StudentList::Login(string username, string password) {
 	}
 	return -1;
 }
+
 bool StudentList::GetStudentByNo (int no, Student &stu) {
 	for (int i=0; i<(int)students.size(); ++i) {
 		if (students[i].matchNo(no)) {
@@ -15,6 +26,45 @@ bool StudentList::GetStudentByNo (int no, Student &stu) {
 		}
 	}
 	return 0;
+}
+bool StudentList::GetStudentByID(string ID, Student & stu)
+{
+	for (int i = 0; i < (int)students.size(); ++i) {
+		if (students[i].MatchId(ID)) {
+			stu = students[i];
+			return 1;
+		}
+	}
+	return 0;
+}
+int StudentList::findId()
+{
+	ifstream fi;
+	fi.open("student.txt");
+
+	string word, line;
+	vector<string> row;
+
+	int index = 0;
+	if (fi.is_open())
+	{
+		while (getline(fi, line))
+		{
+			row.clear();
+
+			stringstream str(line);
+
+			while (getline(str, word, ','))
+			{
+				row.push_back(word);
+			}
+			int tmp = stoi(row[0]);
+			if (tmp > index) index = tmp;
+		}
+	}
+	fi.close();
+
+	return index + 1;
 }
 bool StudentList::importFromFile (string filename) {
 	ifstream fin; fin.open(filename);
@@ -25,7 +75,7 @@ bool StudentList::importFromFile (string filename) {
 	string line, word;
 	vector<string> row;
 
-	getline(fin, line);
+	//getline(fin, line);
 
 	while (getline(fin, line))
 	{
@@ -51,4 +101,72 @@ bool StudentList::importFromFile (string filename) {
 	}
 
 	return 1;
+}
+
+bool StudentList::exportFile(string filename) //ham nay la rewrite file
+{
+	ofstream fout;
+	fout.open(filename);
+
+	for (unsigned int i = 0; i < students.size(); i++)
+	{
+		fout << students[i].no << ",";
+		fout << students[i].ID << ",";
+		fout << students[i].password << ",";
+		fout << students[i].firstName << ",";
+		fout << students[i].lastName << ",";
+		fout << students[i].gender << ",";
+		fout << students[i].DoB << ",";
+		fout << students[i].classID << endl;
+	}
+
+	fout.close();
+	return true;
+}
+
+bool StudentList::AddStudent(Student stu)
+{
+	Student tmp;
+	if (GetStudentByID(stu.ID, tmp)) return false;
+
+	// tao no va password
+	stu.no = findId();
+	stu.password = eraseAllSlash(stu.DoB);
+
+	//them vao vector
+	students.push_back(stu);
+
+	//sua trong file
+	exportFile("student.txt");
+
+	return false;
+}
+bool StudentList::Update(int no, string newPassword)
+{
+	//Student tmp;
+	
+	for (int i = 0; i < students.size(); i++)
+	{
+		if (students[i].matchNo(no))
+		{
+			students[i].password = newPassword;
+			exportFile("student.txt");
+			return true;
+		}
+	}
+
+	return false;
+}
+bool StudentList::Remove(int no)
+{
+	for (int i = 0; i < students.size(); i++)
+	{
+		if (students[i].matchNo(no))
+		{
+			students.erase(students.begin() + i);
+			exportFile("student.txt");
+			return true;
+		}
+	}
+	return false;
 }
