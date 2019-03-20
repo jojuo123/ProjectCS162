@@ -18,12 +18,5 @@ struct Class
 	bool matchClass(string anotherClassName);
 };
 
-struct ClassList {
-	vector<Class> classes;
-
-	//find the classNo of the name in the list.
-	int ClassNo(string ClassName);
-};
-
 
 #endif
