@@ -37,10 +37,4 @@ struct Course
 	bool AddStudent(string studentId);
 };
 
-struct CourseList {
-	vector<Course> courses;
-
-	void AddCourse(Course c);
-};
-
 #endif

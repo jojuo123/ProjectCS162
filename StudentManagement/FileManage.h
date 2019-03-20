@@ -11,6 +11,7 @@
 #include "Class.h"
 #include "Student.h"
 #include "Course.h"
+#include "CourseList.h"
 #include "Lecturer.h"
 #include "LecturerList.h"
 #include "Scoreboard.h"
