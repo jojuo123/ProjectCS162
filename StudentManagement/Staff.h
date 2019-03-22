@@ -14,7 +14,8 @@ struct Staff
 	string name;
 	string password;
 
-	bool matchNo(int anotherNo);
+	//bool Login(string username, string password, Global &global);
+	//bool Update(Global &global, string newPassword, string newName);
 };
 
 

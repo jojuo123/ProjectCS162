@@ -125,6 +125,7 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="ClassList.h" />
     <ClInclude Include="Course.h" />
+    <ClInclude Include="CourseList.h" />
     <ClInclude Include="FileManage.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Lecturer.h" />
@@ -133,17 +134,15 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Semester.h" />
     <ClInclude Include="Staff.h" />
-    <ClInclude Include="StaffList.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="StudentList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Course.cpp" />
+    <ClCompile Include="CourseList.cpp" />
     <ClCompile Include="FileManage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Staff.cpp" />
-    <ClCompile Include="StaffList.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="StudentList.cpp" />
   </ItemGroup>
