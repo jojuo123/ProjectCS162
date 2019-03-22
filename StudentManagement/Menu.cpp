@@ -33,9 +33,10 @@ void getlinePassword(string &password) {
 			return;
 		else
 		if (ch == VK_BACK) {
-			if (!password.empty())
+			if (!password.empty()) {
 				password.pop_back();
-			cout << "\b \b";
+				cout << "\b \b";
+			}
 			cout.flush();
 		}
 		else
