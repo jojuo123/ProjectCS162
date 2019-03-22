@@ -123,7 +123,9 @@
     <ClInclude Include="AcademicYear.h" />
     <ClInclude Include="Attendance.h" />
     <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassList.h" />
     <ClInclude Include="Course.h" />
+    <ClInclude Include="CourseList.h" />
     <ClInclude Include="FileManage.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Lecturer.h" />
@@ -138,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Course.cpp" />
+    <ClCompile Include="CourseList.cpp" />
     <ClCompile Include="FileManage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
