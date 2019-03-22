@@ -58,6 +58,16 @@ void test() {
 			getlinePassword(password);
 			cout << "You entered: " << password << endl;
 		} //*/
+		/*string username, password;
+		Global a;
+		cout << "Enter username and password: " << endl; cin >> username >> password;
+		int num = a.lecList.Login(username, password);
+		string newpass = "20122000";
+		if (a.lecList.Update(num, newpass)) cout << "Changed" << endl;
+		a.lecList.GetLecByNo(num, a.currentLecturer);
+		cout << a.currentLecturer.ID << ' ' << a.currentLecturer.firstName << ' ' << a.currentLecturer.lastName << ' ';
+		a.lecList.Remove(3);
+		system("pause");*/
 	}
 }
 
