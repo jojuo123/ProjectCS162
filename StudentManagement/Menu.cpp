@@ -6,49 +6,6 @@ void TextColor(int x)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), x);
 }
 
-void gotoxy(int x, int y) {
-	COORD c = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
-void resizeScreen(int width, int height) {
-	HANDLE hout = GetStdHandle(STD_OUTPUT_HANDLE);
-	SMALL_RECT rect;
-	rect.Top = rect.Left = 0;
-	rect.Bottom = height - 1;
-	rect.Right = width - 1;
-	COORD c = { width, height}; //col first, then row
-	int tmp;
-
-	//SMALL_RECT const minimal_window = { 0, 0, 1, 1 };
-	//tmp = SetConsoleWindowInfo(hout, TRUE, &minimal_window);
-	tmp = SetConsoleScreenBufferSize(hout, c);
-	tmp = SetConsoleWindowInfo(hout, true, &rect);
-	tmp = SetConsoleScreenBufferSize(hout, c);
-}
-void getlinePassword(string &password) {
-	int ch;
-	do {
-		ch = _getch();
-		if (ch == VK_RETURN)
-			return;
-		else
-		if (ch == VK_BACK) {
-			if (!password.empty())
-				password.pop_back();
-			cout << "\b \b";
-			cout.flush();
-		}
-		else
-		if (ch == 0 || ch == 0xE0) {
-			ch = _getch();
-		}
-		else if (ch>=32) {
-			password += (char)ch;
-			cout << "*";
-		}
-	} while (1);
-}
-
 void startScreen()
 {
 	cout << "  _________    __      __    _________  " << endl;
@@ -83,7 +40,6 @@ int startMenu()
 	cout << "   /       \\" << endl;
 	cout << "2.|  Exit   |" << endl;
 	cout << "   \\_______/" << endl;
-	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
 }
@@ -96,7 +52,6 @@ int staffMenu()
 	cout << "2.Course" << endl;
 	cout << "3.Scoreboard" << endl;
 	cout << "4.Attendance list" << endl;
-	cout << "Enter your choice: ";
 	int x; cin>>x;
 	return x;
 }
@@ -109,7 +64,6 @@ int lecturerMenu()
 	cout << "2.View list of student of a course" << endl;
 	cout << "3.Attendance list" << endl;//view and edit(of a course)
 	cout << "4.Scoreboard" << endl;
-	cout << "Enter your choice: ";
 	int x; cin>>x;
 	return x;
 }
@@ -124,7 +78,6 @@ int studentMenu()
 	cout << "4.View score" << endl;
 	cout << "5.View profile info" << endl;
 	cout << "6.Log out" << endl;
-	cout << "Enter your choice: ";
 	int x; cin>>x;
 	return x;
 }
@@ -135,7 +88,7 @@ int roleSelectMenu () {
 	cout<<"1.Staff"<<endl;
 	cout<<"2.Lecturer"<<endl;
 	cout<<"3.Student"<<endl;
-	cout<<"Enter your choice: ";
+	cout<<"Enter your choice: "<<endl;
 	int x; cin>>x;
 	return x;
 }
@@ -155,24 +108,18 @@ int staffClassMenu () {
 }
 
 bool studentLoginScreen (string &username, string &password, Global &global) {
-	system("CLS");
-	cout << "LOGIN" << endl;
-	cout << "Username: " << endl;
-	cout << "Password: " << endl;
-
-	gotoxy(10, 1);
+	cout<<"Username: "; 
 	cin.ignore(9999,'\n');
 	getline(cin, username);
-
-	gotoxy(10, 2);
-	getlinePassword(password);
-	gotoxy(0, 3);
+	cout<<"Password: "; 
+	getline(cin, password);
 
 	int res = global.stuList.Login(username, password);
 	if (res == -1) return false;
 	bool ret = global.stuList.GetStudentByNo(res, global.currentStudent);
 	return ret;
 }
+
 
 void studentProfile(Global &global)
 {

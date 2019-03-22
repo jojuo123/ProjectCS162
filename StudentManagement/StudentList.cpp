@@ -15,7 +15,6 @@ int StudentList::Login(string username, string password) {
 		if (students[i].ID == username && students[i].password == password)
 			return students[i].no;
 	}
-	return -1;
 }
 
 bool StudentList::GetStudentByNo (int no, Student &stu) {
