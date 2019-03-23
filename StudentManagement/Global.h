@@ -9,10 +9,12 @@
 #include "StudentList.h"
 #include "Lecturer.h"
 #include "LecturerList.h"
+#include "Staff.h"
+#include "StaffList.h"
 
 using namespace std;
-struct Student;
-struct StudentList;
+//struct Student;
+//struct StudentList;
 struct Global
 {
 	int currentRole;
@@ -21,10 +23,15 @@ struct Global
 	StudentList stuList;
 	LecturerList lecList;
 	Lecturer currentLecturer;
+	Staff currentStaff;
+	StaffList staffList;
+	bool currentlyLoggedIn;
 
 	Global() {
-		stuList.importFromFile("student.txt");
+		currentlyLoggedIn = false;
+		staffList.importFromFile("staff.txt");
 		lecList.importFromFile("lecturer.txt");
+		stuList.importFromFile("student.txt");
 	}
 };
 
