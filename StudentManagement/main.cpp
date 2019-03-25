@@ -77,22 +77,9 @@ int main()
 	test();
 #else
 	//Do real thing
-	startScreen();
-
 	Global global;
-	for (global.currentRole = roleSelectMenu(); global.currentRole<1 || global.currentRole>3; global.currentRole=roleSelectMenu());
-	if (global.currentRole == 3) { //student
-		bool x = studentLoginScreen(global.username, global.password, global);
-		if (x) {
-		if(	studentMenu()==5)
-			studentProfile(global);//test
-		}
-		else {
-			cout<<"Login failed.";
-		}
-	}
-
-	importStudentFile("18CTT5.csv");
+	//startScreen();
+	mainMenuScreen(global);
 #endif
 	return 0;
 }
