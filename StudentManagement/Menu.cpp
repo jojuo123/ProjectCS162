@@ -540,7 +540,6 @@ void editStudentScreen(Global &global) {
 		}
 	}
 }
-
 int mainMenuScreen(Global &global) {
 	bool running = true;
 	while (running) {
