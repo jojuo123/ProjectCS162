@@ -347,7 +347,9 @@ int staffMenu(string name) {
 	system("cls");
 	cout << "Welcome, " << name << endl;
 	cout << "1. Change password" << endl;
-	cout << "2. Log out" << endl;
+	cout << "2. Edit an existing student" << endl;
+	cout << "3. Remove a student" << endl;
+	cout << "4. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -380,6 +382,164 @@ void logout(Global &global) {
 	}
 }
 
+void removeStudentScreen(Global &global) {
+	system("CLS");
+	cout << "Student deletetion wizard" << endl;
+	string id;
+	cout << "Enter student ID: ";
+	cin.ignore(9999, '\n');
+	getline(cin, id);
+
+	Student stu;
+	if (global.stuList.GetStudentByID(id, stu) == 0) {
+		cout << "There is no such student ID." << endl;
+		cout << "Any key to return." << endl;
+		_getch();
+	}
+	else {
+		cout << id<<"'s profile" << endl;
+		cout << "ID: " << stu.ID << endl;
+		cout << "Name: " << stu.firstName << " " << stu.lastName << endl;
+		cout << "Gender: " << stu.gender << endl;
+		cout << "Date Of Birth: " << stu.DoB << endl;
+		cout << "Class: " << stu.classID << endl;
+		cout << endl;
+		cout << "Are you sure you want to delete this student? [Y/N]: ";
+
+		string tmp = "N";
+		getline(cin, tmp);
+		if (tmp[0] == 'Y' || tmp[0] == 'y') {
+			global.stuList.Remove(stu.no);
+			cout << "Removal complete. Any key to return..." << endl;
+			_getch();
+		}
+	}
+}
+bool getlineESC(string &str) { //Return 1 if ESC during typing, 0 if not.
+	int ch;
+	str = "";
+	do {
+		ch = _getch();
+		if (ch == VK_RETURN)
+			return 0;
+		else
+		if (ch == VK_BACK) {
+			if (!str.empty()) {
+				str.pop_back();
+				cout << "\b \b";
+			}
+			cout.flush();
+		}
+		else if (ch == VK_ESCAPE) {
+			return 1;
+		}
+		else
+		if (ch == 0 || ch == 0xE0) {
+			ch = _getch();
+		}
+		else if (ch >= 32) {
+			str += (char)ch;
+			cout << str.back();
+			cout.flush();
+		}
+	} while (1);
+}
+bool isLeapYear(int year)
+{
+	if (year % 4 != 0)
+		return false;
+	if (year % 100 != 0)
+		return true;
+	if (year % 400 == 0)
+		return true;
+	else
+		return false;
+}
+bool isValidDoB(string dob) {
+	int d, m, y;
+	if (sscanf(dob.c_str(), "%d/%d/%d", &d, &m, &y) != 3) return 0;
+	if (m == 4 || m == 6 || m == 9 || m == 11)
+		return (d >= 1 && d <= 30);
+	else if (m == 2) {
+		int numDay = isLeapYear(y) ? 29 : 28;
+		return (d >= 1 && d <= numDay);
+	}
+	else return (d >= 1 && d <= 31);
+}
+
+void editStudentScreen(Global &global) {
+	system("CLS");
+	cout << "Student editing wizard" << endl;
+	cout << "Press ESC at any point to discard changes and return." << endl;
+	string id;
+	cout << "Enter student ID: "; 
+	cin.ignore(9999,'\n');
+	getline(cin, id);
+
+	Student stu;
+	if (global.stuList.GetStudentByID(id, stu) == 0) {
+		cout << "There is no such student ID." << endl;
+		cout << "Any key to return." << endl;
+		_getch();
+	}
+	else {
+		cout << id << "'s OLD profile" << endl;
+		cout << "ID: " << stu.ID << endl;
+		cout << "Name: " << stu.firstName << " " << stu.lastName << endl;
+		cout << "Gender: " << stu.gender << endl;
+		cout << "Date Of Birth: " << stu.DoB << endl;
+
+		//WAIT FOR ClassList.h implementation
+		cout << "Class: " << stu.classID << endl;
+		cout << endl;
+
+		int newProfX = 30;
+		gotoxy(newProfX, 3); cout << "NEW PROFILE";
+		gotoxy(newProfX, 4); cout << "ID: " << stu.ID;
+		gotoxy(newProfX, 5); cout << "First Name: ";
+		gotoxy(newProfX, 6); cout << "Last Name: ";
+		gotoxy(newProfX, 7); cout << "Gender (M/F): ";
+		gotoxy(newProfX, 8); cout << "DoB (dd/mm/yyyy): ";
+		gotoxy(newProfX, 9); cout << "Class: ";
+
+		string newID, newFirstName, newLastName, newGender, newDoB, newClass;
+		gotoxy(newProfX + 13, 5); if (getlineESC(newFirstName)) return;
+		gotoxy(newProfX + 12, 6); if (getlineESC(newLastName)) return;
+		do {
+
+			gotoxy(newProfX + 15, 7); if (getlineESC(newGender)) return;
+		} while (newGender[0] != 'M' && newGender[0] != 'm'&&newGender[0] != 'F'&&newGender[0] != 'f');
+		if (newGender[0] == 'm') newGender[0] = 'M';
+		if (newGender[0] == 'f') newGender[0] = 'F';
+
+		do {
+			gotoxy(newProfX + 19, 8); if (getlineESC(newDoB)) return;
+		} while (!isValidDoB(newDoB));
+		
+		//WAIT FOR ClassList.h IMPLEMENTATION
+		//For now just enter classNo a.k.a classID
+		/*do {
+			gotoxy(newProfX + 4, 4); if (getlineESC(newClass)) return;
+		} while (!isValidClass(newClass)); */
+		string newClassNoStr; int newClassNo;
+		gotoxy(newProfX + 8, 9); if (getlineESC(newClassNoStr)) return;
+		newClassNo = stoi(newClassNoStr);
+
+		gotoxy(newProfX, 10); string tmp;
+		cout << "Is that ok? [y/n]: "; if (getlineESC(tmp)) return;
+		if (tmp[0] == 'y' || tmp[0] == 'Y') {
+			//UPDATE CODE GOES HERE. WILL BE CHANGED WHEN BACK-END CHANGES
+			global.stuList.Remove(stu.no);
+
+			stu.firstName = newFirstName;
+			stu.lastName = newLastName;
+			stu.gender = newGender[0];
+			stu.DoB = newDoB;
+			stu.classID = newClassNo;
+			global.stuList.AddStudent(stu);
+		}
+	}
+}
 int mainMenuScreen(Global &global) {
 	bool running = true;
 	while (running) {
@@ -399,12 +559,16 @@ int mainMenuScreen(Global &global) {
 							int choice = staffMenu(global.currentStaff.name);
 							switch (choice)
 							{
-								/*								
-								cout << "1. Change password" << endl;
-								cout << "2. Log out" << endl;
+								/*
+	cout << "1. Change password" << endl;
+	cout << "2. Edit an existing student" << endl;
+	cout << "3. Remove a student" << endl;
+	cout << "4. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
-							case 2: logout(global); break;
+							case 2: editStudentScreen(global); break;
+							case 3: removeStudentScreen(global); break;
+							case 4: logout(global); break;
 							default:
 								break;
 							}

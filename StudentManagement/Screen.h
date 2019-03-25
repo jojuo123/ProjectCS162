@@ -32,12 +32,16 @@ void logout(Global &global);
 //TESTED SECTION
 int studentMenu(string firstName, string lastName);
 int staffMenu(string firstName, string lastName);
-
-//NOT TESTED SECTION
-//void lecturerProfile(Global &global); //STALLED, WAIT FOR BACK-END FOR LIST-ALL-COURSES-WHICH-ARE-TAUGHT METHOD.
-int mainMenuScreen(Global &global);
 int lecturerMenu(string firstName, string lastName);
 bool lecturerLoginScreen(Global &global);
 bool lecturerChangePasswordScreen(Global &global);
+int mainMenuScreen(Global &global);
+
+//NOT TESTED SECTION
+//void lecturerProfile(Global &global); //STALLED, WAIT FOR BACK-END FOR LIST-ALL-COURSES-WHICH-ARE-TAUGHT METHOD.
+void removeStudentScreen(Global &global); //Staff only.
+void editStudentScreen(Global &global);
+bool isValidDoB(string dob);
+bool isLeapYear(int year);
 
 #endif // !SCREEN_H_
