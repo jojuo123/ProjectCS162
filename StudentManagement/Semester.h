@@ -15,6 +15,10 @@ struct Semester
 	string name;
 	int yearNo;
 	vector<Course> courses;
+
+	bool matchYear(int anotheryearno);
+	bool matchName(string anothername);
+	bool matchNo(int anotherno);
 };
 
 #endif
