@@ -13,9 +13,10 @@ struct Class
 {
 	int no;
 	string name;
-	vector<Student> students;
+	//vector<Student> students;
 
 	bool matchClass(string anotherClassName);
+	bool matchNo(int anotherno);
 };
 
 
