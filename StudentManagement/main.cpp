@@ -17,10 +17,12 @@
 #include <sstream>
 #include "FileManage.h"
 #include "Screen.h"
+#include "AcademicYearList.h"
+#include "SemesterList.h"
 
 using namespace std;
 
-//#define TESTING_PHASE
+#define TESTING_PHASE
 
 void test() {
 	{ //for testing importCourse and exportCourse
@@ -68,6 +70,25 @@ void test() {
 		cout << a.currentLecturer.ID << ' ' << a.currentLecturer.firstName << ' ' << a.currentLecturer.lastName << ' ';
 		a.lecList.Remove(3);
 		system("pause");*/
+		/*AcademicYearList a;
+		a.importFromFile("academicyear.txt");
+	
+		
+		AcademicYear b; b.name = "hihi";
+		a.AddYear(b);
+		a.RemoveYear(3);*/
+		SemesterList a;
+		a.importFromFile("SemesterList.txt");
+		Semester b;
+		b.name = "Sem1";
+		b.yearNo = 1;
+		a.addSemester(b);
+		a.deleteSemester(5);
+		vector<Semester> c = a.getSemesterByYear(1);
+		for (int i = 0; i < (int)c.size(); ++i)
+		{
+			cout << c[i].no<<" "<<c[i].name << " " << c[i].yearNo << endl;
+		}
 	}
 }
 

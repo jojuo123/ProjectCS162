@@ -13,6 +13,9 @@ struct AcademicYear
 {
 	int no;
 	string name;
-	vector<Semester> semesters;
+
+	bool matchNo(int anotherno);
+	bool matchName(string anothername);
+	//vector<Semester> semesters;
 };
 #endif // !
