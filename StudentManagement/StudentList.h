@@ -25,6 +25,9 @@ struct StudentList {
 	bool AddStudent(Student stu);
 	bool Update(int no, string newPassword);
 	bool Remove(int no); //xoa 1 Stu	
+	bool UpdateInfo(int no, Student student);
+	bool GetStudentsFromClass(int classNo, vector<Student> &list);
+	bool ChangeClass(int no, int newClassNo);
 	
 };
 
