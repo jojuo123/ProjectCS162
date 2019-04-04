@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 struct Scoreboard
@@ -15,6 +17,12 @@ struct Scoreboard
 	double midterm;
 	double final;
 	double bonus;
+
+	bool matchCourse(int anothercouseno);
+	bool matchStudent(int stuno);
+	bool Update(Scoreboard &anothersc);
+	bool isValid();
+
 };
 
 

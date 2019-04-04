@@ -34,6 +34,7 @@ bool LecturerList::importFromFile(string filename)
 
 int LecturerList::findId(string ID)// tim no cua new lecturer
 {
+	if (lecturers.size() == 0) return 1;
 	int i = (int)lecturers.size() - 1;
 	return lecturers[i].no + 1;
 
@@ -67,8 +68,10 @@ bool LecturerList::GetLecByID(string ID, Lecturer & lec)
 	for (int i = 0; i < (int)lecturers.size(); ++i)
 	{
 		if (lecturers[i].matchID(ID))
+		{
 			lec = lecturers[i];
-		return true;
+			return true;
+		}
 	}
 	return false;
 }
@@ -100,6 +103,7 @@ bool LecturerList::exportFile(string filename)
 		fout << lecturers[i].firstName << ',';
 		fout << lecturers[i].lastName << endl;
 	}
+	fout.close();
 	return true;
 }
 
