@@ -11,8 +11,12 @@ struct Attendance
 {
 	int courseNo;
 	int studentNo;
-	string date;//dd/mm/yyyy
-	char status[2];// (A/P)
+	int weekNo;
+	bool matchCourseNo(int anothercno);
+	bool matchStudentNo(int anothersno);
+	bool matchweekNo(int anotherwno);
+	//string date;//dd/mm/yyyy
+	string status;// (A/P)
 };
 
 #endif
