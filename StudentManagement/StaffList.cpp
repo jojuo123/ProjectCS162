@@ -19,35 +19,36 @@ bool StaffList::GetStafftByNo(int no, Staff &sta) {
 }
 
 bool StaffList::importFromFile(string filename){
-ifstream fin; fin.open(filename);
-if (!fin.is_open()) return 0;
+	ifstream fin; fin.open(filename);
+	if (!fin.is_open()) return 0;
 
-staffs.clear();
+	staffs.clear();
 
-string line, word;
-vector<string> row;
+	string line, word;
+	vector<string> row;
 
-//getline(fin, line);
+	//getline(fin, line);
 
-while (getline(fin, line))
-{
-	row.clear();
-
-	stringstream s(line);
-
-	while (getline(s, word, ','))
+	while (getline(fin, line))
 	{
-		row.push_back(word);
+		if (line.length() == 0) break;
+		row.clear();
+
+		stringstream s(line);
+
+		while (getline(s, word, ','))
+		{
+			row.push_back(word);
+		}
+		Staff sta;
+		sta.no = stoi(row[0]);
+		sta.ID = row[1];
+		sta.password = row[2];
+		sta.name = row[3];
+		staffs.push_back(sta);
 	}
-	Staff sta;
-	sta.no = stoi(row[0]);
-	sta.ID = row[1];
-	sta.password = row[2];
-	sta.name = row[3];
-	staffs.push_back(sta);
-}
-fin.close();
-return 1;
+	fin.close();
+	return 1;
 }
 
 bool StaffList::exportFile(string filename) 

@@ -26,6 +26,7 @@ int importClassFile(string s)
 	{
 		while (getline(fin, line))
 		{
+			if (line.length() == 0) break;
 			row.clear();
 
 			stringstream s(line);
@@ -94,6 +95,7 @@ bool importStudentFile(string s)
 	{
 		while (getline(fi, line))
 		{
+			if (line.length() == 0) break;
 			row.clear();
 
 			stringstream str(line);
@@ -136,7 +138,7 @@ bool importStudentFile(string s)
 	fin.close();
 	return true;
 }
-
+/*
 bool importCourse(string fileName, CourseList &courseList) {
 	FILE *fin = fopen(fileName.c_str(), "r");
 	if (fin == NULL) return 0;
@@ -184,3 +186,4 @@ void exportCourse(string fileName, const CourseList &list) {
 	}
 	fout.close();
 }
+*/

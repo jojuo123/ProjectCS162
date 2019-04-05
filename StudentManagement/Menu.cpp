@@ -90,19 +90,6 @@ int startMenu()
 	return x;
 }
 
-int staffMenu()
-{
-	system("CLS");
-	cout << "<<MENU>>" << endl;
-	cout << "1.Class" << endl;
-	cout << "2.Course" << endl;
-	cout << "3.Scoreboard" << endl;
-	cout << "4.Attendance list" << endl;
-	cout << "Enter your choice: ";
-	int x; cin>>x;
-	return x;
-}
-
 int studentMenu(string firstName, string lastName)
 {
 	system("cls");
@@ -347,9 +334,12 @@ int staffMenu(string name) {
 	system("cls");
 	cout << "Welcome, " << name << endl;
 	cout << "1. Change password" << endl;
-	cout << "2. Edit an existing student" << endl;
-	cout << "3. Remove a student" << endl;
-	cout << "4. Log out" << endl;
+	cout << "2. Import student from <ClassName>.csv" << endl;
+	cout << "3. Add (manually) a new student" << endl;
+	cout << "4. Edit student profile" << endl;
+	cout << "5. Change class of a student" << endl;
+	cout << "6. Remove a student" << endl;
+	cout << "7. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -382,7 +372,7 @@ void logout(Global &global) {
 	}
 }
 
-void removeStudentScreen(Global &global) {
+void studentRemoveScreen(Global &global) {
 	system("CLS");
 	cout << "Student deletetion wizard" << endl;
 	string id;
@@ -420,8 +410,10 @@ bool getlineESC(string &str) { //Return 1 if ESC during typing, 0 if not.
 	str = "";
 	do {
 		ch = _getch();
-		if (ch == VK_RETURN)
+		if (ch == VK_RETURN) {
+			cout << "\n";
 			return 0;
+		}
 		else
 		if (ch == VK_BACK) {
 			if (!str.empty()) {
@@ -467,7 +459,7 @@ bool isValidDoB(string dob) {
 	else return (d >= 1 && d <= 31);
 }
 
-void editStudentScreen(Global &global) {
+void studentEditScreen(Global &global) {
 	system("CLS");
 	cout << "Student editing wizard" << endl;
 	cout << "Press ESC at any point to discard changes and return." << endl;
@@ -489,8 +481,13 @@ void editStudentScreen(Global &global) {
 		cout << "Gender: " << stu.gender << endl;
 		cout << "Date Of Birth: " << stu.DoB << endl;
 
-		//WAIT FOR ClassList.h implementation
-		cout << "Class: " << stu.classID << endl;
+		Class cla;
+		if (!global.classList.getClassByNo(stu.classID, cla)) {
+			cout << "DATABASE FAULT!!!" << endl;
+			_getch();
+			return;
+		}
+		cout << "Class: " << cla.name << endl;
 		cout << endl;
 
 		int newProfX = 30;
@@ -500,20 +497,23 @@ void editStudentScreen(Global &global) {
 		gotoxy(newProfX, 6); cout << "Last Name: ";
 		gotoxy(newProfX, 7); cout << "Gender (M/F): ";
 		gotoxy(newProfX, 8); cout << "DoB (dd/mm/yyyy): ";
-		gotoxy(newProfX, 9); cout << "Class: ";
+		gotoxy(newProfX, 9); cout << "Class: " << cla.name;
 
 		string newID, newFirstName, newLastName, newGender, newDoB, newClass;
 		gotoxy(newProfX + 13, 5); if (getlineESC(newFirstName)) return;
 		gotoxy(newProfX + 12, 6); if (getlineESC(newLastName)) return;
 		do {
-
-			gotoxy(newProfX + 15, 7); if (getlineESC(newGender)) return;
+			gotoxy(newProfX + 15, 7);  cout << "              ";
+			gotoxy(newProfX + 15, 7);
+			if (getlineESC(newGender)) return;
 		} while (newGender[0] != 'M' && newGender[0] != 'm'&&newGender[0] != 'F'&&newGender[0] != 'f');
 		if (newGender[0] == 'm') newGender[0] = 'M';
 		if (newGender[0] == 'f') newGender[0] = 'F';
 
 		do {
-			gotoxy(newProfX + 19, 8); if (getlineESC(newDoB)) return;
+			gotoxy(newProfX + 19, 8);  cout << "              ";
+			gotoxy(newProfX + 19, 8);
+			if (getlineESC(newDoB)) return;
 		} while (!isValidDoB(newDoB));
 		
 		//WAIT FOR ClassList.h IMPLEMENTATION
@@ -521,22 +521,15 @@ void editStudentScreen(Global &global) {
 		/*do {
 			gotoxy(newProfX + 4, 4); if (getlineESC(newClass)) return;
 		} while (!isValidClass(newClass)); */
-		string newClassNoStr; int newClassNo;
-		gotoxy(newProfX + 8, 9); if (getlineESC(newClassNoStr)) return;
-		newClassNo = stoi(newClassNoStr);
 
-		gotoxy(newProfX, 10); string tmp;
+		gotoxy(newProfX, 11); string tmp;
 		cout << "Is that ok? [y/n]: "; if (getlineESC(tmp)) return;
 		if (tmp[0] == 'y' || tmp[0] == 'Y') {
-			//UPDATE CODE GOES HERE. WILL BE CHANGED WHEN BACK-END CHANGES
-			global.stuList.Remove(stu.no);
-
 			stu.firstName = newFirstName;
 			stu.lastName = newLastName;
 			stu.gender = newGender[0];
 			stu.DoB = newDoB;
-			stu.classID = newClassNo;
-			global.stuList.AddStudent(stu);
+			global.stuList.UpdateInfo(stu.no, stu);
 		}
 	}
 }
@@ -561,14 +554,20 @@ int mainMenuScreen(Global &global) {
 							{
 								/*
 	cout << "1. Change password" << endl;
-	cout << "2. Edit an existing student" << endl;
-	cout << "3. Remove a student" << endl;
-	cout << "4. Log out" << endl;
+	cout << "2. Import student from <ClassName>.csv" << endl;
+	cout << "3. Add (manually) a new student" << endl;
+	cout << "4. Edit student profile" << endl;
+	cout << "5. Change class of a student" << endl;
+	cout << "6. Remove a student" << endl;
+	cout << "7. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
-							case 2: editStudentScreen(global); break;
-							case 3: removeStudentScreen(global); break;
-							case 4: logout(global); break;
+							case 2: studentImportFromCSVScreen(global); break;
+							case 3: studentAddScreen(global); break;
+							case 4: studentEditScreen(global); break;
+							case 5: studentChangeClassScreen(global); break;
+							case 6: studentRemoveScreen(global); break;
+							case 7: logout(global); break;
 							default:
 								break;
 							}
@@ -655,4 +654,150 @@ int mainMenuScreen(Global &global) {
 		}
 	}
 	return 0;
+}
+
+void studentImportFromCSVScreen(Global &global) {
+	OPENFILENAME ofn;
+	char szFile[260]; szFile[0] = '\0';
+	char szFileNoDir[100]; szFileNoDir[0] = '\0';
+
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = GetConsoleWindow();
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+
+	ofn.lpstrFilter = "All\0*.*\0CSV File\0*.CSV\0";
+	ofn.nFilterIndex = 2;
+	ofn.lpstrFileTitle = szFileNoDir;
+	ofn.nMaxFileTitle = sizeof(szFileNoDir);
+	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrTitle = "Choose student file";
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (GetOpenFileName(&ofn)) {
+		system("CLS");
+		string fileName = szFileNoDir;
+		if (importStudentFile(fileName)) {
+			cout << "Import complete." << endl;
+		}
+		else {
+			cout << "There is some error." << endl;
+			cout << "Contact programmer for further details." << endl;
+			cout << "CODE: importStudentFromCSVScreen->importStudentFile" << endl;
+		}
+	}
+	else {
+		cout << "There is some error." << endl;
+		cout << "Contact programmer for further details." << endl;
+		cout << "CODE: importStudentFromCSVScreen->GetOpenFileName" << endl;
+	}
+	_getch();
+}
+
+void studentAddScreen(Global &global) {
+	system("CLS");
+	cout << "New student" << endl;
+	cout << "Press ESC when typing to discard changes & return." << endl;
+	Student stu;
+	cout << "ID: "; getlineESC(stu.ID);
+	if (global.stuList.GetStudentByID(stu.ID, stu)) {
+		cout << "This id is already used." << endl;
+		_getch();
+		return;
+	}
+	cout << endl;
+
+	int newProfX = 0;
+	gotoxy(newProfX, 3); cout << "First Name: ";
+	gotoxy(newProfX, 4); cout << "Last Name: ";
+	gotoxy(newProfX, 5); cout << "Gender (M/F): ";
+	gotoxy(newProfX, 6); cout << "DoB (dd/mm/yyyy): ";
+	gotoxy(newProfX, 7); cout << "Class: ";
+
+	string newID, newFirstName, newLastName, newGender, newDoB, newClass;
+	gotoxy(newProfX + 13, 3); if (getlineESC(newFirstName)) return;
+	gotoxy(newProfX + 12, 4); if (getlineESC(newLastName)) return;
+	do {
+		gotoxy(newProfX + 15, 5);  cout << "              ";
+		gotoxy(newProfX + 15, 5);
+		if (getlineESC(newGender)) return;
+	} while (newGender[0] != 'M' && newGender[0] != 'm'&&newGender[0] != 'F'&&newGender[0] != 'f');
+	if (newGender[0] == 'm') newGender[0] = 'M';
+	if (newGender[0] == 'f') newGender[0] = 'F';
+
+	do {
+		gotoxy(newProfX + 19, 6);  cout << "              ";
+		gotoxy(newProfX + 19, 6);
+		if (getlineESC(newDoB)) return;
+	} while (!isValidDoB(newDoB));
+
+	//WAIT FOR ClassList.h IMPLEMENTATION
+	//For now just enter classNo a.k.a classID
+	/*do {
+	gotoxy(newProfX + 4, 4); if (getlineESC(newClass)) return;
+	} while (!isValidClass(newClass)); */
+	string newClassNoStr; 
+	gotoxy(newProfX + 8, 7); if (getlineESC(newClassNoStr)) return;
+
+	gotoxy(newProfX, 9); string tmp;
+	cout << "Is that ok? [y/n]: "; if (getlineESC(tmp)) return;
+	if (tmp[0] == 'y' || tmp[0] == 'Y') {
+		stu.firstName = newFirstName;
+		stu.lastName = newLastName;
+		stu.gender = newGender[0];
+		stu.DoB = newDoB;
+
+		Class cla; cla.name = newClassNoStr;
+		//Chac chan rang co class no
+		global.classList.addClass(cla);
+		global.classList.getClassByName(newClassNoStr, cla);
+
+		stu.classID = cla.no;
+		global.stuList.AddStudent(stu);
+
+		cout << "Operation complete.";
+		_getch();
+	}
+}
+
+void studentChangeClassScreen(Global &global) {
+	system("CLS");
+	Student stu;
+	string ID;
+	cout << "ID: "; if (getlineESC(ID)) return;
+	if (global.stuList.GetStudentByID(ID, stu)) {
+		cout << "Name: " << stu.firstName << " " << stu.lastName << endl;
+		cout << "Gender: " << stu.gender << endl;
+		cout << "Date Of Birth: " << stu.DoB << endl;
+
+		Class cla;
+		if (!global.classList.getClassByNo(stu.classID, cla)) {
+			cout << "DATABASE FAULT!!!" << endl;
+			_getch();
+			return;
+		}
+		cout << "Class: " << cla.name << endl;
+		cout << endl;
+
+		string newClassStr;
+		cout << "Enter new class: "; if (getlineESC(newClassStr)) return;
+
+		string tmp;
+		cout << endl << "Is this okay? [y/n] : "; if (getlineESC(tmp)) return;
+		if (tmp[0] == 'y' || tmp[0] == 'Y') {
+			cla.name = newClassStr;
+			global.classList.addClass(cla);
+			global.classList.getClassByName(newClassStr, cla);
+
+			global.stuList.ChangeClass(stu.no, cla.no);
+			cout << "Operation complete." << endl;
+			_getch();
+		}
+
+	}
+	else {
+		cout << "No student with such ID." << endl;
+		_getch();
+	}
 }
