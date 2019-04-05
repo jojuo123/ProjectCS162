@@ -18,6 +18,7 @@ struct CourseList {
 	bool GetCourseByNo(int no, Course &course);
 	int FindNo();
 	bool Remove(int no);
+	bool GetCoursesBySemester(int SemNo);
 };
 
 #endif
