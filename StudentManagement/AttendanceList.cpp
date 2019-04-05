@@ -32,7 +32,7 @@ bool AttendanceList::importFromFile(string filename)
 
 		attendances.push_back(att);
 	}
-
+	fin.close();
 	return 1;
 }
 bool AttendanceList::exportFile(string filename)
