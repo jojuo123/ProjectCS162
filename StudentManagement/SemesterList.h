@@ -17,6 +17,7 @@ struct SemesterList
 	int findNewNo();//find no for new semester
 	bool deleteSemester(int semesterno);
 	vector<Semester> getSemesterByYear(int yearno);
+	bool GetSemesterByNo(int no, Semester &sem);
 };
 
 
