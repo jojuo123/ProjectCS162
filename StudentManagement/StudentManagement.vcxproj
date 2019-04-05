@@ -128,6 +128,8 @@
     <ClInclude Include="ClassList.h" />
     <ClInclude Include="Course.h" />
     <ClInclude Include="CourseList.h" />
+    <ClInclude Include="CourseStudent.h" />
+    <ClInclude Include="CourseStudentList.h" />
     <ClInclude Include="FileManage.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Lecturer.h" />
@@ -151,6 +153,8 @@
     <ClCompile Include="ClassList.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="CourseList.cpp" />
+    <ClCompile Include="CourseStudent.cpp" />
+    <ClCompile Include="CourseStudentList.cpp" />
     <ClCompile Include="FileManage.cpp" />
     <ClCompile Include="Lecturer.cpp" />
     <ClCompile Include="LecturerList.cpp" />

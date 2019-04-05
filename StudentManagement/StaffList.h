@@ -10,9 +10,6 @@
 
 using namespace std;
 
-struct Global;
-struct Staff;
-
 struct StaffList {
 	vector<Staff> staffs;
 	int Login(string username, string password);

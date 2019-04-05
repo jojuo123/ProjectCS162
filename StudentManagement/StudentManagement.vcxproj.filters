@@ -78,6 +78,12 @@
     <ClInclude Include="SemesterList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CourseStudent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CourseStudentList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -141,6 +147,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CourseStudent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CourseStudentList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

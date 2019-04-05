@@ -5,8 +5,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Semester.h"
-#include "Global.h"
 using namespace std;
 
 struct AcademicYear

@@ -12,6 +12,10 @@
 #include "Staff.h"
 #include "StaffList.h"
 #include "ClassList.h"
+#include "AcademicYearList.h"
+#include "SemesterList.h"
+#include "AttendanceList.h"
+#include "ScoreboardList.h"
 
 using namespace std;
 //struct Student;
@@ -27,6 +31,11 @@ struct Global
 	Staff currentStaff;
 	StaffList staffList;
 	ClassList classList;
+
+	AcademicYearList academicYearList;
+	SemesterList semesterList;
+	ScoreboardList scoreboardList;
+
 	bool currentlyLoggedIn;
 
 	Global() {
