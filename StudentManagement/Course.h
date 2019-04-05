@@ -9,7 +9,7 @@
 using namespace std;
 
 struct Student;
-typedef vector<Student> vecstu;
+//typedef vector<Student> vecstu;
 
 struct Course
 {
@@ -17,8 +17,8 @@ struct Course
 	string ID;
 	string name;
 
-	//int lecturerNo;
-	string lecturerAccount;
+	int lecturerNo;
+	//string lecturerAccount;
 
 	string startDate;//dd/mm/yyyy
 	string endDate;
@@ -27,14 +27,14 @@ struct Course
 	string endHour;
 	string room;
 
-	//int classNo;
-	string className;
+	int classNo;
+	//string className;
 
 	//bool Update(Global &global, Course newInformation);
-	bool RemoveStudent(int stuNo);
-	bool AddStudent(int studentNo);
-	bool RemoveStudent(string stuId);
-	bool AddStudent(string studentId);
+	//bool RemoveStudent(int stuNo);
+	//bool AddStudent(int studentNo);
+	//bool RemoveStudent(string stuId);
+	//bool AddStudent(string studentId);
 };
 
 #endif
