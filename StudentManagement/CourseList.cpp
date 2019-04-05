@@ -219,3 +219,16 @@ bool CourseList::Remove(int no)
 	}
 	return false;
 }
+
+bool CourseList::GetCoursesBySemester(int SemNo, vector<Course> &list)
+{
+	list.clear();
+	for (int i = 0; i < (int)courses.size(); i++)
+	{
+		if (courses[i].SemNo == SemNo)
+		{
+			list.push_back(courses[i]);
+		}
+	}
+	return true;
+}
