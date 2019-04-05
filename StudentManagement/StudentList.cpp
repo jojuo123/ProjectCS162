@@ -100,6 +100,7 @@ bool StudentList::importFromFile (string filename) {
 		students.push_back(stu);
 	}
 
+	fin.close();
 	return 1;
 }
 
