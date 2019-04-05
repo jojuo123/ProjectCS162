@@ -11,6 +11,7 @@
 #include "Global.h"
 #include "LecturerList.h"
 #include "Scoreboard.h"
+#include "ScoreboardList.h"
 #include "Semester.h"
 #include "Staff.h"
 #include <vector>
@@ -22,7 +23,7 @@
 
 using namespace std;
 
-#define TESTING_PHASE
+//#define TESTING_PHASE
 
 void test() {
 	{ //for testing importCourse and exportCourse
@@ -77,18 +78,34 @@ void test() {
 		AcademicYear b; b.name = "hihi";
 		a.AddYear(b);
 		a.RemoveYear(3);*/
-		SemesterList a;
+		/*SemesterList a;
 		a.importFromFile("SemesterList.txt");
+		a.deleteSemester(6);
 		Semester b;
-		b.name = "Sem1";
-		b.yearNo = 1;
+		b.name = "haha";
+		b.yearNo = 2;
 		a.addSemester(b);
-		a.deleteSemester(5);
+		
 		vector<Semester> c = a.getSemesterByYear(1);
 		for (int i = 0; i < (int)c.size(); ++i)
 		{
 			cout << c[i].no<<" "<<c[i].name << " " << c[i].yearNo << endl;
-		}
+		}*/
+		/*ScoreboardList a;
+		a.ImportFromfile("Scorelist.txt");
+		/*Scoreboard b;
+		b.studentNo = 4;
+		b.courseNo = 4;
+		b.lab = 5;
+		b.bonus =8;
+		b.final = 6;
+		b.midterm = 10;
+		if (a.AddOrUpdate(b)) cout << 1;
+		else cout << 0;
+		Scoreboard c = a.GetScoreboard(5, 5);
+		cout << c.courseNo << ' ' << c.studentNo << ' ' << c.lab << ' ' << c.midterm << ' ' << c.final << ' ' << c.bonus;*/
+		/*if (a.ExportCsv(6,"coursescore.csv"))
+			cout << 1; else cout << 0;*/
 	}
 }
 
