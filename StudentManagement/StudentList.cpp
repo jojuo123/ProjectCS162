@@ -100,6 +100,7 @@ bool StudentList::importFromFile (string filename) {
 		students.push_back(stu);
 	}
 
+	fin.close();
 	return 1;
 }
 
@@ -145,7 +146,7 @@ bool StudentList::Update(int no, string newPassword)
 {
 	//Student tmp;
 	
-	for (int i = 0; i < students.size(); i++)
+	for (int i = 0; i < (int)students.size(); i++)
 	{
 		if (students[i].matchNo(no))
 		{
@@ -159,11 +160,53 @@ bool StudentList::Update(int no, string newPassword)
 }
 bool StudentList::Remove(int no)
 {
-	for (int i = 0; i < students.size(); i++)
+	for (int i = 0; i < (int)students.size(); i++)
 	{
 		if (students[i].matchNo(no))
 		{
 			students.erase(students.begin() + i);
+			exportFile("student.txt");
+			return true;
+		}
+	}
+	return false;
+}
+
+bool StudentList::UpdateInfo(int no, Student student)
+{
+	for (int i = 0; i < (int)students.size(); ++i)
+	{
+		if (students[i].matchNo(no))
+		{
+			students[i].firstName = student.firstName;
+			students[i].lastName = student.lastName;
+			students[i].DoB = student.DoB;
+			students[i].gender = student.gender;
+			exportFile("student.txt");
+			return true;
+		}
+	}
+	return false;
+}
+
+bool StudentList::GetStudentsFromClass(int classNo, vector<Student>& list)
+{
+	list.clear();
+	for (int i = 0; i < (int)students.size(); ++i)
+	{
+		if (students[i].classID == classNo)
+			list.push_back(students[i]);
+	}
+	return true;
+}
+
+bool StudentList::ChangeClass(int no, int newClassNo)
+{
+	for (int i = 0; i < (int)students.size(); ++i)
+	{
+		if (students[i].matchNo(no))
+		{
+			students[i].classID = newClassNo;
 			exportFile("student.txt");
 			return true;
 		}
