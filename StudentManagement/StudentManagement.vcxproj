@@ -121,7 +121,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AcademicYear.h" />
+    <ClInclude Include="AcademicYearList.h" />
     <ClInclude Include="Attendance.h" />
+    <ClInclude Include="AttendanceList.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="ClassList.h" />
     <ClInclude Include="Course.h" />
@@ -131,14 +133,22 @@
     <ClInclude Include="Lecturer.h" />
     <ClInclude Include="LecturerList.h" />
     <ClInclude Include="Scoreboard.h" />
+    <ClInclude Include="ScoreboardList.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Semester.h" />
+    <ClInclude Include="SemesterList.h" />
     <ClInclude Include="Staff.h" />
     <ClInclude Include="StaffList.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="StudentList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AcademicYear.cpp" />
+    <ClCompile Include="AcademicYearList.cpp" />
+    <ClCompile Include="Attendance.cpp" />
+    <ClCompile Include="AttendanceList.cpp" />
+    <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassList.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="CourseList.cpp" />
     <ClCompile Include="FileManage.cpp" />
@@ -146,6 +156,10 @@
     <ClCompile Include="LecturerList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Scoreboard.cpp" />
+    <ClCompile Include="ScoreboardList.cpp" />
+    <ClCompile Include="Semester.cpp" />
+    <ClCompile Include="SemesterList.cpp" />
     <ClCompile Include="Staff.cpp" />
     <ClCompile Include="StaffList.cpp" />
     <ClCompile Include="Student.cpp" />

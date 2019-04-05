@@ -50,6 +50,7 @@ int StudentList::findId()
 	{
 		while (getline(fi, line))
 		{
+			if (line.length() == 0) break;
 			row.clear();
 
 			stringstream str(line);
@@ -79,6 +80,7 @@ bool StudentList::importFromFile (string filename) {
 
 	while (getline(fin, line))
 	{
+		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);

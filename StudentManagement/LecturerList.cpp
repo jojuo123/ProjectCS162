@@ -13,6 +13,7 @@ bool LecturerList::importFromFile(string filename)
 	
 	while (getline(fin, line))
 	{
+		if (line.length() == 0) break;
 		row.clear();
 		stringstream s(line);
 		while (getline(s, word, ','))

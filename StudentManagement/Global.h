@@ -11,6 +11,7 @@
 #include "LecturerList.h"
 #include "Staff.h"
 #include "StaffList.h"
+#include "ClassList.h"
 
 using namespace std;
 //struct Student;
@@ -25,6 +26,7 @@ struct Global
 	Lecturer currentLecturer;
 	Staff currentStaff;
 	StaffList staffList;
+	ClassList classList;
 	bool currentlyLoggedIn;
 
 	Global() {
@@ -32,6 +34,7 @@ struct Global
 		staffList.importFromFile("staff.txt");
 		lecList.importFromFile("lecturer.txt");
 		stuList.importFromFile("student.txt");
+		classList.importFromFile("class.txt");
 	}
 };
 

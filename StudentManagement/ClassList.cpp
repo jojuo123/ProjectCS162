@@ -37,6 +37,7 @@ bool ClassList::importFromFile(string filename)
 
 	while (getline(fin, line))
 	{
+		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);

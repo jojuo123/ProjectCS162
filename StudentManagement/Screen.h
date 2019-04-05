@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <Windows.h>
 #include "Global.h"
+#include "FileManage.h"
 
 using namespace std;
 
@@ -39,9 +40,13 @@ int mainMenuScreen(Global &global);
 
 //NOT TESTED SECTION
 //void lecturerProfile(Global &global); //STALLED, WAIT FOR BACK-END FOR LIST-ALL-COURSES-WHICH-ARE-TAUGHT METHOD.
-void removeStudentScreen(Global &global); //Staff only.
-void editStudentScreen(Global &global);
+void studentRemoveScreen(Global &global); //Staff only.
+void studentEditScreen(Global &global);
 bool isValidDoB(string dob);
 bool isLeapYear(int year);
+
+void studentImportFromCSVScreen(Global &global);
+void studentAddScreen(Global &global);
+void studentChangeClassScreen(Global &global);
 
 #endif // !SCREEN_H_

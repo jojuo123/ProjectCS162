@@ -30,9 +30,9 @@ bool importStudentFile(string s);
 
 //Import from fileName (such as "18CTT1-courses.csv") into "list".
 //Ignore header
-bool importCourse(string fileName, CourseList &courseList);
+//bool importCourse(string fileName, CourseList &courseList);
 //Export from "list" into external file (such as "courses.txt");
-void exportCourse(string fileName, const CourseList &list);
+//void exportCourse(string fileName, const CourseList &list);
 
 
 #endif // !FILE_H_
