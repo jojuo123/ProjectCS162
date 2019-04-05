@@ -11,6 +11,7 @@ bool SemesterList::importFromFile(string filename)
 
 	while (getline(fin, line))
 	{
+		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);
@@ -53,7 +54,6 @@ bool SemesterList::isExist(string name, int yearno)
 		{
 			if (SemList[i].matchName(name))
 				return true;
-			return false;
 		}
 	}
 	return false;
@@ -65,7 +65,7 @@ bool SemesterList::addSemester(Semester & sem)
 	sem.no = findNewNo();
 	SemList.push_back(sem);
 	exportToFile("SemesterList.txt");
-	return false;
+	return true;
 }
 
 int SemesterList::findNewNo()
@@ -116,4 +116,3 @@ bool SemesterList::GetSemesterByNo(int no, Semester & sem)
 	}
 	return false;
 }
-

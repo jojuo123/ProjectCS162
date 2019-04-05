@@ -10,6 +10,12 @@ void gotoxy(int x, int y) {
 	COORD c = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
+int WhereY() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwCursorPosition.Y;
+}
+
 void resizeScreen(int width, int height) {
 	HANDLE hout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SMALL_RECT rect;
@@ -341,7 +347,14 @@ int staffMenu(string name) {
 	cout << "6. Remove a student" << endl;
 	cout << "7. List all classes" << endl;
 	cout << "8. List all student in a class" << endl;
-	cout << "9. Log out" << endl;
+
+	cout << "9. Create an academic year" << endl;
+	cout << "10. Delete an academic year" << endl;
+	cout << "11. View academic years" << endl;
+	cout << "12. Create a semester" << endl;
+	cout << "13. Delete a semester" << endl;
+	cout << "14. View all semesters" << endl;
+	cout << "15. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -563,7 +576,14 @@ int mainMenuScreen(Global &global) {
 	cout << "6. Remove a student" << endl;
 	cout << "7. List all classes" << endl;
 	cout << "8. List all student in a class" << endl;
-	cout << "9. Log out" << endl;
+
+	cout << "9. Create an academic year" << endl;
+	cout << "10. Delete an academic year" << endl;
+	cout << "11. View academic years" << endl;
+	cout << "12. Create a semester" << endl;
+	cout << "13. Delete a semester" << endl;
+	cout << "14. View all semesters" << endl;
+	cout << "15. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
 							case 2: studentImportFromCSVScreen(global); break;
@@ -573,7 +593,19 @@ int mainMenuScreen(Global &global) {
 							case 6: studentRemoveScreen(global); break;
 							case 7: classListScreen(global); break;
 							case 8: classStudentListScreen(global); break;
-							case 9: logout(global); break;
+
+							case 9: academicYearCreateScreen(global); break;
+							case 10: academicYearDeleteScreen(global); break;
+							case 11: {
+										 system("CLS");
+										 academicYearScreenUtil(global, 0);
+										 _getch();
+										 break;
+							}
+							case 12: semesterCreateScreen(global); break;
+							case 13: semesterDeleteScreen(global); break;
+							case 14: semesterListScreen(global); break;
+							case 15: logout(global); break;
 							default:
 								break;
 							}
@@ -853,6 +885,161 @@ void classStudentListScreen(Global &global) {
 	}
 	else {
 		cout << "No such class exists." << endl;
+	}
+	_getch();
+}
+
+void semesterListScreenUtil(Global &global, int baseY, vector<Semester> &semVec) { //get out semVec for further usage.
+	int x_no = 0, x_year = 5, x_semester = 18;
+	gotoxy(x_no, baseY); cout << "No";
+	gotoxy(x_year, baseY); cout << "Year";
+	gotoxy(x_semester, baseY); cout << "Semester";
+	int yOffset = 0;
+	semVec.clear();
+	for (unsigned int i = 0; i < global.academicYearList.AcademicYears.size(); ++i) {
+		AcademicYear year = global.academicYearList.AcademicYears[i];
+		vector<Semester> sml = global.semesterList.getSemesterByYear(year.no);
+		for (unsigned int j = 0; j < sml.size(); ++j) {
+			yOffset++;
+			gotoxy(x_no, baseY+yOffset); cout << yOffset;
+			gotoxy(x_year, baseY+yOffset); cout << year.name;
+			gotoxy(x_semester, baseY+yOffset); cout << sml[j].name;
+			semVec.push_back(sml[j]);
+		}
+	}
+}
+
+void academicYearScreenUtil(Global &global, int baseY) {
+	int x_no = 0, x_year = 5;
+	gotoxy(x_no, baseY); cout << "No";
+	gotoxy(x_year, baseY); cout << "Year";
+	int yOffset = 0;
+	for (unsigned int i = 0; i < global.academicYearList.AcademicYears.size(); ++i) {
+		yOffset++;
+		gotoxy(x_no, baseY+yOffset); cout << yOffset;
+		gotoxy(x_year, baseY+yOffset); cout << global.academicYearList.AcademicYears[i].name;
+	}
+}
+
+int academicYearSelectScreen(Global &global, string IntroText) { //tra ve academicYearNo
+	unsigned int x;
+	do {
+		system("CLS");
+		cout << IntroText << endl;
+		academicYearScreenUtil(global, WhereY());
+		cout << endl << endl;
+		cout << "Enter your choice (0 to exit without selecting): ";
+		cin >> x;
+	} while (x < 0 || x > (int)global.academicYearList.AcademicYears.size());
+	if (x == 0) return -1;
+	return global.academicYearList.AcademicYears[x - 1].no;
+}
+int semesterSelectScreen(Global &global, string IntroText) { //tra ve semesterNo
+	unsigned int x;
+	vector<Semester> semVec;
+	do {
+		system("CLS");
+		cout << IntroText << endl;
+		semesterListScreenUtil(global, WhereY(), semVec);
+		cout << endl << endl;
+		cout << "Enter your choice (0 to exit without selecting): ";
+		cin >> x;
+	} while (x<0 || x>semVec.size());
+	if (x == 0) return -1;
+	return semVec[x - 1].no;
+}
+
+void semesterListScreen(Global &global) {
+	system("CLS");
+	vector<Semester> semVec;
+	semesterListScreenUtil(global, 0, semVec);
+	_getch();
+}
+
+void semesterCreateScreen(Global &global) {
+	int yearNo = academicYearSelectScreen(global,"Select an academic year");
+	if (yearNo == -1) return;
+	system("CLS");
+	AcademicYear year; 
+	global.academicYearList.GetYearByNo(yearNo, year);
+	cout << "Semesters in " << year.name << endl;
+	vector<Semester> semVec = global.semesterList.getSemesterByYear(yearNo);
+	for (unsigned int i = 0; i < semVec.size(); ++i) {
+		cout << i + 1 <<" "<< semVec[i].name << endl;
+	}
+	string semName;
+	cout << endl << "Enter new semester name: "; if (getlineESC(semName)) return;
+	Semester sem;
+	sem.name = semName;
+	sem.yearNo = yearNo;
+	if (global.semesterList.addSemester(sem)) {
+		cout << "Add complete" << endl;
+	}
+	else {
+		cout << "Semester already exists." << endl;
+	}
+	_getch();
+}
+
+void semesterDeleteScreen(Global &global) {
+	int semNo = semesterSelectScreen(global,"Select semester to delete\n"
+		"WARNING: Delete all courses in a semester before deleting");
+	if (semNo != -1) {
+		//Neu con course trong semester nay thi khong cho delete, nguoc lai delete
+		//STALLED. WAIT FOR BACK-END
+		vector<Course> courseVec;
+		global.courseList.GetCoursesBySemester(semNo, courseVec);
+		if (courseVec.empty()) {
+			if (global.semesterList.deleteSemester(semNo)) {
+				cout << "Operation complete." << endl;
+			}
+			else {
+				cout << "SemesterList::deleteSemester fault." << endl;
+				cout << "Operation failed." << endl;
+			}
+		}
+		else cout << "Read the warning please" << endl;
+		_getch();
+	}
+	else return;
+}
+void academicYearCreateScreen(Global &global) {
+	system("CLS");
+	academicYearScreenUtil(global, 0);
+	cout << endl << endl << "New academic year name: ";
+	string yearNameStr;
+	if (getlineESC(yearNameStr)) return;
+	AcademicYear year;
+	year.name = yearNameStr;
+	if (!global.academicYearList.AddYear(year)) {
+		cout << "This year name is already existed." << endl;
+	}
+	else {
+		cout << "Operation complete." << endl;
+	}
+	_getch();
+}
+void academicYearDeleteScreen(Global &global) {
+	system("CLS");
+	cout << "Select academic year to delete." << endl;
+	cout << "WARNING: Delete ALL semesters in a year before deleting a year" << endl;
+	int yearNo = academicYearSelectScreen(global, "Select academic year to delete.\n"
+												"WARNING: Delete ALL semesters in a year before deleting a year");
+	if (yearNo == -1) return;
+
+	vector<Semester> semVec = global.semesterList.getSemesterByYear(yearNo);
+	if (!semVec.empty()) {
+		cout << "Read the warning please." << endl;
+		cout << "Operation failed." << endl;
+	}
+	else {
+		if (global.academicYearList.RemoveYear(yearNo)) {
+			cout << "Operation complete" << endl;
+		}
+		else {
+			cout << "AcademicYearList.RemoveYear failure" << endl;
+			cout << "Operation failed" << endl;
+		}
 	}
 	_getch();
 }

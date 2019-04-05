@@ -52,4 +52,14 @@ void studentChangeClassScreen(Global &global);
 void classListScreen(Global &global);
 void classStudentListScreen(Global &global); //feature 12
 
+void academicYearScreenUtil(Global &global, int baseY);
+void academicYearCreateScreen(Global &global);
+void academicYearDeleteScreen(Global &global);
+int academicYearSelectScreen(Global &global, string IntroText = "");
+
+void semesterCreateScreen(Global &global);
+void semesterDeleteScreen(Global &global);
+void semesterListScreen(Global &global);
+int semesterSelectScreen(Global &global, string IntroText = "");
+
 #endif // !SCREEN_H_
