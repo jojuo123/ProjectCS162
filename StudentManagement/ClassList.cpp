@@ -51,7 +51,7 @@ bool ClassList::importFromFile(string filename)
 
 		classes.push_back(cla);
 	}
-
+	fin.close();
 	return 1;
 }
 
