@@ -13,6 +13,7 @@ struct ScoreboardList
 	bool AddOrUpdate(Scoreboard &sc);
 	Scoreboard GetScoreboard(int stuno, int courseno);
 	bool ExportCsv(int courseno,string filename);
+	bool ImportFromCSV(string filename, int courseNo, StudentList &stuList);
 };
 
 #endif // !_
