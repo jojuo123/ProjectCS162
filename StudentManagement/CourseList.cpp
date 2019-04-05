@@ -8,7 +8,7 @@ void CourseList::AddCourse(Course c) {
 }
 
 
-bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, LecturerList &lecRef) {
+bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, LecturerList &lecRef, int semNo) {
 	FILE *fin = fopen(fileName.c_str(), "r");
 	if (fin == NULL) return 0;
 	char buf[1000], cid[20], cname[100], classstr[20], lecacc[40], stdate[11], eddate[11],
@@ -19,7 +19,7 @@ bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, Lecture
 		fgets(buf, 1000, fin);
 		if (feof(fin)) break;
 		Course c;
-		if (sscanf(buf, "%d,%[^,],%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,\n]", &cno, cid, cname, classstr, lecacc, stdate, eddate, dow, sthour, edhour, room) != 11) break;
+		sscanf(buf, "%d,%[^,],%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,\n]", &cno, cid, cname, classstr, lecacc, stdate, eddate, dow, sthour, edhour, room);
 		{ //This may need change in future.
 			c.no = cno;
 			c.ID = cid;
@@ -55,6 +55,8 @@ bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, Lecture
 			c.startHour = sthour;
 			c.endHour = edhour;
 			c.room = room;
+			c.SemNo = semNo;
+
 		}
 		AddCourse(c);
 	} while (!feof(fin));
@@ -78,7 +80,8 @@ bool CourseList::exportFile(string fileName) {
 			fout << courses[i].startHour << ","; //7
 			fout << courses[i].endHour << ","; //8
 			fout << courses[i].room << ","; //9
-			fout << courses[i].classNo << endl; //10
+			fout << courses[i].classNo << ","; //10
+			fout << courses[i].SemNo << endl;
 		}
 
 		fout.close();
@@ -99,7 +102,6 @@ bool CourseList::importFromFile(string filename)
 
 	while (getline(fin, line))
 	{
-		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);
@@ -120,6 +122,7 @@ bool CourseList::importFromFile(string filename)
 		c.endHour = row[8];
 		c.room = row[9];
 		c.classNo = stoi(row[10]);
+		c.SemNo = stoi(row[11]);
 
 		courses.push_back(c);
 	}
@@ -158,6 +161,7 @@ bool CourseList::Update(int no, Course course)
 			i.room = course.room;
 			i.classNo = course.classNo;
 			i.name = course.name;
+			i.SemNo = course.SemNo;
 
 			exportFile("course.txt");
 			return true;
@@ -200,4 +204,18 @@ int CourseList::FindNo()
 		if (i.no > index) index = i.no;
 	}
 	return index + 1;
+}
+
+bool CourseList::Remove(int no)
+{
+	for (unsigned int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].no == no)
+		{
+			courses.erase(courses.begin() + i);
+			exportFile("course.txt");
+			return true;
+		}
+	}
+	return false;
 }
