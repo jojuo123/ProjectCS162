@@ -19,7 +19,7 @@ bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, Lecture
 		fgets(buf, 1000, fin);
 		if (feof(fin)) break;
 		Course c;
-		if (sscanf(buf, "%d,%[^,],%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,\n]", &cno, cid, cname, classstr, lecacc, stdate, eddate, dow, sthour, edhour, room)!=11) break;
+		sscanf(buf, "%d,%[^,],%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,]%*c%[^,\n]", &cno, cid, cname, classstr, lecacc, stdate, eddate, dow, sthour, edhour, room);
 		{ //This may need change in future.
 			c.no = cno;
 			c.ID = cid;
@@ -99,7 +99,6 @@ bool CourseList::importFromFile(string filename)
 
 	while (getline(fin, line))
 	{
-		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);
