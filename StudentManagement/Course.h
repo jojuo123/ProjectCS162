@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 #include "Student.h"
+#include <ctime>
+#include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,6 +31,7 @@ struct Course
 	string room;
 
 	int classNo;
+	int SemNo;
 	//string className;
 
 	//bool Update(Global &global, Course newInformation);
@@ -35,6 +39,7 @@ struct Course
 	//bool AddStudent(int studentNo);
 	//bool RemoveStudent(string stuId);
 	//bool AddStudent(string studentId);
+	int NumberOfWeek();
 };
 
 #endif

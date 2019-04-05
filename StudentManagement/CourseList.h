@@ -9,7 +9,7 @@ struct CourseList {
 	vector<Course> courses;
 
 	void AddCourse(Course c);
-	bool importFromFileCSV(string fileName, ClassList &classRef, LecturerList &lecRef);
+	bool importFromFileCSV(string fileName, ClassList &classRef, LecturerList &lecRef, int semNo);
 	bool exportFile(string fileName);
 	bool importFromFile(string filename);
 	bool getCourseOfLecturer(int LecNo, vector<Course> &list);
@@ -17,6 +17,7 @@ struct CourseList {
 	bool GetCourseById(string id, Course &course);
 	bool GetCourseByNo(int no, Course &course);
 	int FindNo();
+	bool Remove(int no);
 };
 
 #endif
