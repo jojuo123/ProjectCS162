@@ -46,7 +46,7 @@ while (getline(fin, line))
 	sta.name = row[3];
 	staffs.push_back(sta);
 }
-
+fin.close();
 return 1;
 }
 
