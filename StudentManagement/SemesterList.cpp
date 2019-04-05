@@ -11,7 +11,6 @@ bool SemesterList::importFromFile(string filename)
 
 	while (getline(fin, line))
 	{
-		if (line.length() == 0) break;
 		row.clear();
 
 		stringstream s(line);
@@ -103,5 +102,18 @@ vector<Semester> SemesterList::getSemesterByYear(int yearno)
 		}
 	}
 	return a;
+}
+
+bool SemesterList::GetSemesterByNo(int no, Semester & sem)
+{
+	for (int i = 0; i < (int)SemList.size(); ++i)
+	{
+		if (SemList[i].matchNo(no))
+		{
+			sem = SemList[i];
+			return true;
+		}
+	}
+	return false;
 }
 
