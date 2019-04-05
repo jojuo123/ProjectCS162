@@ -339,7 +339,9 @@ int staffMenu(string name) {
 	cout << "4. Edit student profile" << endl;
 	cout << "5. Change class of a student" << endl;
 	cout << "6. Remove a student" << endl;
-	cout << "7. Log out" << endl;
+	cout << "7. List all classes" << endl;
+	cout << "8. List all student in a class" << endl;
+	cout << "9. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -559,7 +561,9 @@ int mainMenuScreen(Global &global) {
 	cout << "4. Edit student profile" << endl;
 	cout << "5. Change class of a student" << endl;
 	cout << "6. Remove a student" << endl;
-	cout << "7. Log out" << endl;
+	cout << "7. List all classes" << endl;
+	cout << "8. List all student in a class" << endl;
+	cout << "9. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
 							case 2: studentImportFromCSVScreen(global); break;
@@ -567,7 +571,9 @@ int mainMenuScreen(Global &global) {
 							case 4: studentEditScreen(global); break;
 							case 5: studentChangeClassScreen(global); break;
 							case 6: studentRemoveScreen(global); break;
-							case 7: logout(global); break;
+							case 7: classListScreen(global); break;
+							case 8: classStudentListScreen(global); break;
+							case 9: logout(global); break;
 							default:
 								break;
 							}
@@ -800,4 +806,53 @@ void studentChangeClassScreen(Global &global) {
 		cout << "No student with such ID." << endl;
 		_getch();
 	}
+}
+
+void classListScreen(Global &global) {
+	system("CLS");
+	cout << "ALL CLASSES" << endl;
+	cout << "No.\tClass Name" << endl;
+	for (unsigned int i = 0; i < global.classList.classes.size(); ++i) {
+		cout << i+1 <<"\t"<< global.classList.classes[i].name << endl;
+	}
+	_getch();
+}
+
+void classStudentListScreen(Global &global) {
+	system("CLS"); string classStr;
+	cout << "Student of class: "; getlineESC(classStr);
+	Class cla;
+	if (global.classList.getClassByName(classStr, cla)) {
+		vector<Student> stuVec;
+		global.stuList.GetStudentsFromClass(cla.no, stuVec);
+		int x_no = 0;
+		int x_id = 5;
+		int x_firstName = 15;
+		int x_lastName = 35;
+		int x_gender = 50;
+		int x_dob = 58;
+		
+		int cur_y = 1;
+		gotoxy(x_no, cur_y); cout << "NO";
+		gotoxy(x_id, cur_y); cout << "ID";
+		gotoxy(x_firstName, cur_y); cout << "First name";
+		gotoxy(x_lastName, cur_y); cout << "Last name";
+		gotoxy(x_gender, cur_y); cout << "Gender";
+		gotoxy(x_dob, cur_y); cout << "DoB";
+		cur_y++;
+		
+		for (unsigned int i = 0; i < stuVec.size(); ++i) {
+			gotoxy(x_no, cur_y); cout << i + 1;
+			gotoxy(x_id, cur_y); cout << stuVec[i].ID;
+			gotoxy(x_firstName, cur_y); cout << stuVec[i].firstName;
+			gotoxy(x_lastName, cur_y); cout << stuVec[i].lastName;
+			gotoxy(x_gender, cur_y); cout << stuVec[i].gender;
+			gotoxy(x_dob, cur_y); cout << stuVec[i].DoB;
+			cur_y++;
+		}
+	}
+	else {
+		cout << "No such class exists." << endl;
+	}
+	_getch();
 }

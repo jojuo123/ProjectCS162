@@ -49,4 +49,7 @@ void studentImportFromCSVScreen(Global &global);
 void studentAddScreen(Global &global);
 void studentChangeClassScreen(Global &global);
 
+void classListScreen(Global &global);
+void classStudentListScreen(Global &global); //feature 12
+
 #endif // !SCREEN_H_
