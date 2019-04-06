@@ -2,6 +2,8 @@
 
 #include <cstdio>
 
+
+
 string eraseAllSlash(string str)
 {
 	string tmp = "";
@@ -111,7 +113,8 @@ bool importStudentFile(string s)
 	fi.close();
 
 	//Them class vao trong file class.txt
-	stringstream str(s);
+	string a = GetFileName(s);
+	stringstream str(a);
 	getline(str, word, '.');
 	int classNo = importClassFile(word);
 
@@ -137,6 +140,17 @@ bool importStudentFile(string s)
 	fout.close();
 	fin.close();
 	return true;
+}
+string GetFileName(const string &s)
+{
+	char sep = '/';
+#ifdef _WIN32
+	sep = '\\';
+#endif
+	size_t i = s.rfind(sep, s.length());
+	if (i != string::npos)
+		return (s.substr(i + 1, s.length()));
+	return "";
 }
 /*
 bool importCourse(string fileName, CourseList &courseList) {

@@ -28,6 +28,8 @@ int importClassFile(string s);
 
 bool importStudentFile(string s);
 
+string GetFileName(const string &s);
+
 //Import from fileName (such as "18CTT1-courses.csv") into "list".
 //Ignore header
 //bool importCourse(string fileName, CourseList &courseList);
