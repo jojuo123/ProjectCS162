@@ -115,3 +115,43 @@ bool ScoreboardList::ExportCsv(int courseno,string filename)
 	return true;
 }
 
+bool ScoreboardList::ImportFromCSV(string filename, int courseNo, StudentList & stuList)
+{
+	ifstream fin;
+	fin.open(filename);
+	if (!fin.is_open()) return 0;
+
+	string line, word;
+	vector<string> row;
+
+	getline(fin, line);
+
+	while (getline(fin, line))
+	{
+		if (line.length() == 0)
+			break;
+		stringstream s(line);
+		row.clear();
+		while (getline(s, word, ','))
+		{
+			
+			row.push_back(word);
+		}
+		Scoreboard tmp;
+		Student a;
+		if (stuList.GetStudentByID(row[0], a))
+		{
+			tmp.courseNo = courseNo;
+			tmp.studentNo = a.no;
+			tmp.lab = stoi(row[1]);
+			tmp.midterm = stoi(row[2]);
+			tmp.final = stoi(row[3]);
+			tmp.bonus = stoi(row[4]);
+			AddOrUpdate(tmp);
+		}
+
+	}
+	fin.close();
+	return true;
+}
+
