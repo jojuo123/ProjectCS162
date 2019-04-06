@@ -147,7 +147,7 @@ bool CourseList::getCourseOfLecturer(int LecNo, vector<Course>& list)
 
 bool CourseList::Update(int no, Course course)
 {
-	for (Course i : courses)
+	for (Course &i : courses)
 	{
 		if (i.no == no)
 		{
