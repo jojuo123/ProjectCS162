@@ -354,7 +354,9 @@ int staffMenu(string name) {
 	cout << "12. Create a semester" << endl;
 	cout << "13. Delete a semester" << endl;
 	cout << "14. View all semesters" << endl;
-	cout << "15. Log out" << endl;
+	cout << "15. Import Courses.CSV into semester" << endl;
+	cout << "16. Add (manually) new course" << endl;
+	cout << "17. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -583,7 +585,9 @@ int mainMenuScreen(Global &global) {
 	cout << "12. Create a semester" << endl;
 	cout << "13. Delete a semester" << endl;
 	cout << "14. View all semesters" << endl;
-	cout << "15. Log out" << endl;
+	cout << "15. Import Courses.CSV into semester" << endl;
+	cout << "16. Add (manually) new course" << endl;
+	cout << "17. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
 							case 2: studentImportFromCSVScreen(global); break;
@@ -605,7 +609,9 @@ int mainMenuScreen(Global &global) {
 							case 12: semesterCreateScreen(global); break;
 							case 13: semesterDeleteScreen(global); break;
 							case 14: semesterListScreen(global); break;
-							case 15: logout(global); break;
+							case 15: courseImportFromCSVScreen(global); break;
+							case 16: courseAddScreen(global); break;
+							case 17: logout(global); break;
 							default:
 								break;
 							}
@@ -711,11 +717,11 @@ void studentImportFromCSVScreen(Global &global) {
 	ofn.nMaxFileTitle = sizeof(szFileNoDir);
 	ofn.lpstrInitialDir = NULL;
 	ofn.lpstrTitle = "Choose student file";
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
 	if (GetOpenFileName(&ofn)) {
 		system("CLS");
-		string fileName = szFileNoDir;
+		string fileName = szFile;
 		if (importStudentFile(fileName)) {
 			cout << "Import complete." << endl;
 		}
@@ -724,13 +730,8 @@ void studentImportFromCSVScreen(Global &global) {
 			cout << "Contact programmer for further details." << endl;
 			cout << "CODE: importStudentFromCSVScreen->importStudentFile" << endl;
 		}
+		_getch();
 	}
-	else {
-		cout << "There is some error." << endl;
-		cout << "Contact programmer for further details." << endl;
-		cout << "CODE: importStudentFromCSVScreen->GetOpenFileName" << endl;
-	}
-	_getch();
 }
 
 void studentAddScreen(Global &global) {
@@ -1041,5 +1042,115 @@ void academicYearDeleteScreen(Global &global) {
 			cout << "Operation failed" << endl;
 		}
 	}
+	_getch();
+}
+
+void courseImportFromCSVScreen(Global &global) {
+	int semNo = semesterSelectScreen(global, "Select a semester");
+
+	OPENFILENAME ofn;
+	char szFile[260]; szFile[0] = '\0';
+	char szFileNoDir[100]; szFileNoDir[0] = '\0';
+
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+
+	ofn.lpstrFilter = "All\0*.*\0CSV File\0*.CSV\0";
+	ofn.nFilterIndex = 2;
+	ofn.lpstrFileTitle = szFileNoDir;
+	ofn.nMaxFileTitle = sizeof(szFileNoDir);
+	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrTitle = "Choose course file to import";
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+
+	if (GetOpenFileName(&ofn)) {
+		system("CLS");
+		string fileName = szFile;
+		if (global.courseList.importFromFileCSV(fileName, global.classList, global.lecList, semNo)) {
+			cout << "Import complete." << endl;
+
+			char dir[300];
+			GetCurrentDirectory(300, (char*)&dir);
+			cout << dir << endl;
+		}
+		else {
+			cout << "There is some error." << endl;
+			cout << "Contact programmer for further details." << endl;
+			cout << "CODE: courseImportFromCSVScreen->courseList::importFromFileCSV" << endl;
+		}
+		_getch();
+	}
+}
+
+void courseAddScreen(Global &global) {
+	int semNo = semesterSelectScreen(global, "Select a semester to add course");
+	if (semNo == -1) return;
+	system("CLS");
+	cout << "NEW COURSE INFO" << endl;
+	cout << "ESC at any point to discard changes and exit" << endl;
+
+	string courseID; 
+	Course course;
+	course.SemNo = semNo;
+
+	cout << "Course ID: "; if (getlineESC(courseID)) return;
+	if (global.courseList.GetCourseById(courseID, course)) {
+		cout << "This course already exists. Please try again." << endl;
+		_getch();
+		return;
+	}
+
+	course.ID = courseID;
+	cout << "Course Name: "; if (getlineESC(course.name)) return;
+
+	string classID;
+	Class cla;
+	do {
+		cout << "Class: "; if (getlineESC(classID)) return;
+		if (!global.classList.getClassByName(classID, cla))
+			cout << "No such class exists. Please retype."<<endl;
+		else break;
+	} while (true);
+	course.classNo = cla.no;
+
+	string lecacc;
+	Lecturer lec;
+	cout << "Lecturer Account: "; if (getlineESC(lecacc)) return;
+	//Khong bat validate lecturerAcc
+	lec.ID = lec.firstName = lec.lastName = lecacc;
+	global.lecList.addLecturer(lec);
+	
+	global.lecList.GetLecByID(lecacc, lec);
+	course.lecturerNo = lec.no;
+
+	do {
+		cout << "Valid start date: "; if (getlineESC(course.startDate)) return;
+	} while (!isValidDoB(course.startDate));
+	do {
+		cout << "Valid end date: "; if (getlineESC(course.endDate)) return;
+	} while (!isValidDoB(course.endDate));
+
+	string dow; //day of week
+	do {
+		cout << "Date of Week (Mon, Tue... Sun): "; if (getlineESC(dow)) return;
+	} while (dow != "Mon" && dow != "Tue" && dow != "Wed" && dow != "Thu"&& dow != "Fri"&& dow != "Sat"&& dow != "Sun");
+	course.dayOfWeek = dow;
+
+	int tmp1, tmp2;
+	do {
+		cout << "Start hour (HH:MM): "; if (getlineESC(course.startHour)) return;
+	} while (sscanf(course.startHour.c_str(), "%d:%d", &tmp1, &tmp2)!=2);
+	do {
+		cout << "End hour (HH:MM): "; if (getlineESC(course.endHour)) return;
+	} while (sscanf(course.endHour.c_str(), "%d:%d", &tmp1, &tmp2) != 2);
+	
+	cout << "Room: "; if (getlineESC(course.room)) return;
+
+
+	global.courseList.AddCourse(course);
+	cout << "Operation complete." << endl;
 	_getch();
 }

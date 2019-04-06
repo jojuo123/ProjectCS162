@@ -38,7 +38,6 @@ bool lecturerLoginScreen(Global &global);
 bool lecturerChangePasswordScreen(Global &global);
 int mainMenuScreen(Global &global);
 
-//NOT TESTED SECTION
 //void lecturerProfile(Global &global); //STALLED, WAIT FOR BACK-END FOR LIST-ALL-COURSES-WHICH-ARE-TAUGHT METHOD.
 void studentRemoveScreen(Global &global); //Staff only.
 void studentEditScreen(Global &global);
@@ -61,5 +60,24 @@ void semesterCreateScreen(Global &global);
 void semesterDeleteScreen(Global &global);
 void semesterListScreen(Global &global);
 int semesterSelectScreen(Global &global, string IntroText = "");
+
+void courseImportFromCSVScreen(Global &global);
+void courseAddScreen(Global &global);
+
+//TODO
+void courseEditScreen(Global &global);
+void courseRemoveScreen(Global &global);
+
+void courseStudentRemoveScreen(Global &global);
+void courseStudentAddScreen(Global &global);
+
+//In a semester
+void semesterCourseListScreen(Global &global); //feature 20
+void courseStudentListScreen(Global &global); //feature 21
+
+//Feature 23
+void lecturerListScreen(Global &global);
+void lecturerAddScreen(Global &global);
+
 
 #endif // !SCREEN_H_
