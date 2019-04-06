@@ -60,8 +60,8 @@ bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, Lecture
 		}
 		AddCourse(c);
 	} while (!feof(fin));
+	fclose(fin);
 	return 1;
-
 }
 
 bool CourseList::exportFile(string fileName) {
