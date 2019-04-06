@@ -1,14 +1,42 @@
 #include "CourseStudentList.h"
 
-bool CourseStudentList::AddStudentToCourse(int noCourse, int noStudent)
+bool CourseStudentList::AddStudentToCourse(int noCourse, int noStudent, CourseList &cList, StudentList &stuList)
 {
 	CourseStudent cs(noCourse, noStudent);
-
-	courseStudents.push_back(cs);
-
+	bool res = true;
+	//check if the student or course is existed
+	Course c;
+	Student s;
+	if (cList.GetCourseByNo(noCourse, c) && stuList.GetStudentByNo(noStudent, s))
+	{
+		//check if that student is in the class which is assigned to that course
+		if (c.classNo == s.classID)
+		{
+			res = false;
+		}
+		else
+		{
+			//check if that student has enrolled personally in that course
+			for (auto i : courseStudents)
+			{
+				if (i.Match(noCourse, noStudent))
+				{
+					res = false;
+					break;
+				}
+			}
+			if (res)
+				courseStudents.push_back(cs);
+		}
+	}
+	else
+	{
+		res = false;
+	}
+	
 	SaveToFile("coursestudent.txt");
 
-	return true;
+	return res;
 }
 
 bool CourseStudentList::GetStudentOfCourse(int noCourse, vector<Student>& list, StudentList &stuList, CourseList &cList)
@@ -122,7 +150,7 @@ bool CourseStudentList::ImportFromFile(string filename)
 		}
 		CourseStudent cs;
 		cs.CourseNo = stoi(row[0]);
-		cs.StudentNo = stoi(row[0]);
+		cs.StudentNo = stoi(row[1]);
 		
 		courseStudents.push_back(cs);
 	}
