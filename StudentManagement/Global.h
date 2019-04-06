@@ -16,6 +16,7 @@
 #include "SemesterList.h"
 #include "AttendanceList.h"
 #include "ScoreboardList.h"
+#include "CourseList.h"
 
 using namespace std;
 //struct Student;
@@ -35,6 +36,7 @@ struct Global
 	AcademicYearList academicYearList;
 	SemesterList semesterList;
 	ScoreboardList scoreboardList;
+	CourseList courseList;
 
 	bool currentlyLoggedIn;
 
@@ -44,6 +46,10 @@ struct Global
 		lecList.importFromFile("lecturer.txt");
 		stuList.importFromFile("student.txt");
 		classList.importFromFile("class.txt");
+		courseList.importFromFile("course.txt");
+		academicYearList.importFromFile("academicYear.txt");
+		semesterList.importFromFile("SemesterList.txt");
+		scoreboardList.ImportFromfile("Scorelist.txt");
 	}
 };
 
