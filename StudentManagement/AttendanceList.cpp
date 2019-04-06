@@ -85,3 +85,39 @@ void AttendanceList::addOrUpdateAttendance(int weekNo, int courseNo, int student
 	exportFile("attendance.txt");
 	return;
 }
+
+void AttendanceList::exportToFileCSV(string filename, StudentList & stuList, int courseNo, CourseList &cList, CourseStudentList &cstuList)
+{
+	ofstream fout;
+	fout.open(filename);
+	
+	Course c;
+	if (cList.GetCourseByNo(courseNo, c))
+	{
+		Student stu;
+		int weeks = c.NumberOfWeek();
+		
+		fout << "Student Id,";
+		for (int i = 1; i < weeks; i++)
+			fout << "Week " << i << ",";
+		fout << "week " << weeks << endl;
+
+		vector<Student> list;
+		if (cstuList.GetStudentOfCourse(courseNo, list, stuList, cList))
+		{
+			for (int i = 0; i < (int)list.size(); i++)
+			{
+				fout << list[i].ID << ",";
+				for (int j = 1; j < weeks; ++j)
+				{
+					Attendance att;
+					fout << getAttendance(j, courseNo, list[i].no, att) << ",";
+				}
+				Attendance att;
+				fout << getAttendance(weeks, courseNo, list[i].no, att) << endl;
+			}
+		}
+	}
+
+	fout.close();
+}
