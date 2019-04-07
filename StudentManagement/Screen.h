@@ -94,4 +94,13 @@ void scoreboardImportFromCSVScreen(Global &global);
 void scoreboardEditScreen(Global &global);
 void courseViewScoreboardScreen_lecturer(Global &global);
 
+//use:currentStudent
+void studentViewSchedule(Global &global);
+
+//use:currentStudent
+void studentViewScoreboard(Global &global);
+
+//use:currentStudent
+void studentViewAttendance(Global &global);
+
 #endif // !SCREEN_H_

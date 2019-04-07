@@ -98,9 +98,9 @@ int studentMenu(string firstName, string lastName)
 	system("cls");
 	cout << "Welcome, " << firstName << " " << lastName << endl;
 	cout << "1.Check-in" << endl;
-	cout << "2.View check-in result" << endl;
+	cout << "2.View attendance" << endl;
 	cout << "3.View schedule" << endl;
-	cout << "4.View score" << endl;
+	cout << "4.View scoreboard" << endl;
 	cout << "5.View profile info" << endl;
 	cout << "6.Change password" << endl;
 	cout << "7.Log out" << endl;
@@ -701,18 +701,18 @@ int mainMenuScreen(Global &global) {
 							switch (choice)
 							{
 								/*
-									cout << "1.Check-in" << endl;
-									cout << "2.View check-in result" << endl;
-									cout << "3.View schedule" << endl;
-									cout << "4.View score" << endl;
-									cout << "5.View profile info" << endl;
-									cout << "6.Change password" << endl;
-									cout << "7.Log out" << endl;
+	cout << "1.Check-in" << endl;
+	cout << "2.View attendance" << endl;
+	cout << "3.View schedule" << endl;
+	cout << "4.View scoreboard" << endl;
+	cout << "5.View profile info" << endl;
+	cout << "6.Change password" << endl;
+	cout << "7.Log out" << endl;
 								*/
 							case 1: break;
-							case 2: break; 
-							case 3: break;
-							case 4: break;
+							case 2: studentViewAttendance(global); break;
+							case 3: studentViewSchedule(global); break;
+							case 4: studentViewScoreboard(global); break;
 							case 5: studentProfile(global); break;
 							case 6: studentChangePasswordScreen(global); break;
 							case 7: logout(global); break;
@@ -2140,4 +2140,152 @@ void courseViewScoreboardScreen_lecturer(Global &global) {
 			}
 		}
 	}
+}
+
+//use:currentStudent
+void studentViewSchedule(Global &global){
+	system("CLS");
+	cout << "SCHEDULE" << endl;
+	vector<Course> courseVec;
+	global.courseStudentList.GetCoursesOfStudent(global.currentStudent.no,
+		courseVec,
+		global.courseList,
+		global.stuList);
+
+	cout << "MON" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Mon") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	cout << "TUE" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Tue") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	cout << "WED" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Wed") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	cout << "THU" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Thu") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	cout << "FRI" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Fri") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	cout << "SAT" << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i)
+	if (courseVec[i].dayOfWeek == "Sat") {
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+	}
+	cout << endl;
+
+	_getch();
+}
+
+//use:currentStudent
+void studentViewScoreboard(Global &global) {
+	system("CLS");
+	cout << "SCOREBOARD : " << global.currentStudent.firstName << " " << global.currentStudent.lastName << endl;
+	vector<Course> courseVec;
+	global.courseStudentList.GetCoursesOfStudent(global.currentStudent.no,
+		courseVec,
+		global.courseList,
+		global.stuList);
+	if (courseVec.empty()) {
+		cout << "You are not enrolled in any course." << endl;
+		cout << "So, no scoreboard." << endl;
+		_getch();
+		return;
+	}
+	int x_course = 0, x_midterm = 50, x_final = 56, x_lab = 62, x_bonus = 68;
+	int cur_y = WhereY();
+
+	gotoxy(x_course, cur_y); cout << "Course";
+	gotoxy(x_midterm, cur_y); cout << "Mid";
+	gotoxy(x_final, cur_y); cout << "Final";
+	gotoxy(x_lab, cur_y); cout << "Lab";
+	gotoxy(x_bonus, cur_y); cout << "Bonus";
+	cur_y++;
+
+	for (unsigned int i = 0; i < courseVec.size(); ++i) {
+		gotoxy(x_course, cur_y); cout << courseVec[i].ID << " - " << courseVec[i].name;
+		Scoreboard sc = global.scoreboardList.GetScoreboard(global.currentStudent.no, courseVec[i].no);
+		gotoxy(x_midterm, cur_y); cout << sc.midterm;
+		gotoxy(x_final, cur_y); cout << sc.final;
+		gotoxy(x_lab, cur_y); cout << sc.lab;
+		gotoxy(x_bonus, cur_y); cout << sc.bonus;
+		cur_y++;
+	}
+	_getch();
+}
+
+//use:currentStudent
+void studentViewAttendance(Global &global) {
+	system("CLS");
+	cout << "ATTENDANCE : " << global.currentStudent.firstName << " " << global.currentStudent.lastName << endl;
+	vector<Course> courseVec;
+	global.courseStudentList.GetCoursesOfStudent(global.currentStudent.no,
+		courseVec,
+		global.courseList,
+		global.stuList);
+	if (courseVec.empty()) {
+		cout << "You are not enrolled in any course." << endl;
+		cout << "So, no attendance list." << endl;
+		_getch();
+		return;
+	}
+
+	int noWeek = 0;
+	for (Course i: courseVec)
+	if (i.NumberOfWeek() > noWeek)
+		noWeek = i.NumberOfWeek();
+
+	int x_course = 0;
+	int *x_w = new int[noWeek+1];
+	x_w[1] = 45;
+	for (int i = 2; i <= noWeek; ++i) x_w[i] = x_w[i - 1] + 4;
+	int cur_y = WhereY();
+
+	gotoxy(x_course, cur_y); cout << "Course";
+	for (int i = 1; i <= noWeek; ++i) {
+		gotoxy(x_w[i], cur_y); cout << "W" << i;
+	}
+	cur_y++;
+
+	for (unsigned int i = 0; i < courseVec.size(); ++i) {
+		gotoxy(x_course, cur_y); cout << courseVec[i].ID<<" - "<<courseVec[i].name;
+		for (int j = 1; j <= noWeek; ++j) {
+			Attendance att;
+			string yum = global.attendanceList.getAttendance(j,
+				courseVec[i].no,
+				global.currentStudent.no,
+				att);
+			gotoxy(x_w[j], cur_y); cout << yum;
+		}
+		cur_y++;
+	}
+
+	_getch();
+	delete[] x_w;
 }
