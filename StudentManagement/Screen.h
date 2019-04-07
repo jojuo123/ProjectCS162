@@ -64,20 +64,15 @@ int semesterSelectScreen(Global &global, string IntroText = "");
 void courseImportFromCSVScreen(Global &global);
 void courseAddScreen(Global &global);
 
-//TODO
 void courseEditScreen(Global &global);
 void courseRemoveScreen(Global &global);
 
 void courseStudentRemoveScreen(Global &global);
 void courseStudentAddScreen(Global &global);
 
-//In a semester
-void semesterCourseListScreen(Global &global); //feature 20
-void courseStudentListScreen(Global &global); //feature 21
-
-//Feature 23
-void lecturerListScreen(Global &global);
-void lecturerAddScreen(Global &global);
+void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, int &semNo, string IntroText = "", bool getch = true);
+void semesterListAllCourseScreen(Global &global);
+void courseListAllStudentScreen(Global &global);
 
 
 #endif // !SCREEN_H_
