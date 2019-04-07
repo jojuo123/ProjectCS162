@@ -366,7 +366,8 @@ int staffMenu(string name) {
 	cout << "23. Create a lecturer account" << endl;
 	cout << "24. View all lecturers" << endl;
 	cout << "25. View attendance list of a course" << endl;
-	cout << "26. Log out" << endl;
+	cout << "26. View scoreboard of a course" << endl;
+	cout << "27. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -607,7 +608,8 @@ int mainMenuScreen(Global &global) {
 	cout << "23. Create a lecturer account" << endl;
 	cout << "24. View all lecturers" << endl;
 	cout << "25. View attendance list of a course" << endl;
-	cout << "26. Log out" << endl;
+	cout << "26. View scoreboard of a course" << endl;
+	cout << "27. Log out" << endl;
 								*/
 							case 1: staffChangePasswordScreen(global); break;
 							case 2: studentImportFromCSVScreen(global); break;
@@ -640,7 +642,8 @@ int mainMenuScreen(Global &global) {
 							case 23: lecturerAddScreen(global); break;
 							case 24: lecturerListScreen(global); break;
 							case 25: courseViewAttendanceListScreen_staff(global); break;
-							case 26: logout(global); break;
+							case 26: courseViewScoreboardScreen_staff(global); break;
+							case 27: logout(global); break;
 							default:
 								break;
 							}
@@ -1450,6 +1453,8 @@ void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, 
 
 	if (courseVec.size() == 0) {
 		cout << "Sorry. There is no course available." << endl;
+		if (getch)
+			_getch();
 	}
 	else
 	for (unsigned int i = 0; i < courseVec.size(); ++i) {
@@ -1482,6 +1487,11 @@ void courseListAllStudentScreen(Global &global) {
 	int semNo;
 	vector<Course> courseVec;
 	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a semester", 0);
+	if (courseVec.empty()) {
+		cout << "Any key to return." << endl;
+		_getch();
+		return;
+	}
 	unsigned int x;
 	cout << endl << endl << "Select a course (0 to return): "; cin >> x;
 	if (x == 0 || x > courseVec.size()) return;
@@ -1647,6 +1657,107 @@ void courseViewAttendanceListScreen_staff(Global &global) {
 	}
 }
 
-void courseViewScoreboardScreen(Global &global) {
+//staff va lecturer se dung chung
+//return 1 neu enrolledStudentList khong co gi.
+bool courseViewScoreboardScreenUtil(Global &global, Course courseSelected, bool getch) {
+	system("CLS");
 
+	//Danh sach nguoi hoc
+	vector<Student> stuVec;
+	global.courseStudentList.GetStudentOfCourse(courseSelected.no, stuVec, global.stuList, global.courseList);
+
+	cout << "Scoreboard of " << courseSelected.ID << " : " << courseSelected.name << endl;
+
+	if (stuVec.empty()) {
+		cout << endl << "No student enrolled in this course." << endl;
+		if (getch)
+			_getch();
+		return 1;
+	}
+
+	int x_no = 0, x_id=4, x_name=14, x_midterm = 54, x_final = 59, x_lab = 64, x_bonus = 79, cur_y = WhereY();
+	gotoxy(x_no, cur_y); cout << "NO";
+	gotoxy(x_id, cur_y); cout << "ID";
+	gotoxy(x_name, cur_y); cout << "Name";
+	gotoxy(x_midterm, cur_y); cout << "Mid";
+	gotoxy(x_final, cur_y); cout << "Final";
+	gotoxy(x_lab, cur_y); cout << "Lab";
+	gotoxy(x_bonus, cur_y); cout << "Bonus";
+	cur_y++;
+
+	for (unsigned int i = 0; i < stuVec.size(); ++i) {
+		gotoxy(x_no, cur_y); cout << i+1;
+		gotoxy(x_id, cur_y); cout << stuVec[i].ID;
+		gotoxy(x_name, cur_y); cout << stuVec[i].firstName << " " << stuVec[i].lastName;
+
+		//Lay diem
+		Scoreboard sc = global.scoreboardList.GetScoreboard(stuVec[i].no, courseSelected.no);
+
+		gotoxy(x_midterm, cur_y); cout << sc.midterm;
+		gotoxy(x_final, cur_y); cout << sc.final;
+		gotoxy(x_lab, cur_y); cout << sc.lab;
+		gotoxy(x_bonus, cur_y); cout << sc.bonus;
+		cur_y++;
+	}
+	if (getch)
+		_getch();
+	return 0;
+}
+
+void courseViewScoreboardScreen_staff(Global &global) {
+	//Select a course.
+	int semNo;
+	vector<Course> courseVec;
+	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a semester", 0);
+
+	if (courseVec.empty()) {
+		cout << "Any key to return" << endl;
+		_getch();
+		return;
+	}
+
+	unsigned int x;
+	cout << endl << endl << "Select a course (0 to return): "; cin >> x;
+	if (x == 0 || x > courseVec.size()) return;
+	Course courseSelected = courseVec[x - 1];
+	if (courseViewScoreboardScreenUtil(global, courseSelected, 0)) {
+		cout << "Any key to return" << endl;
+		_getch();
+		return;
+	}
+
+	cout << endl << endl << "Press Enter to export to csv file, any other key to return." << endl;
+	int ch = _getch();
+	if (ch == VK_RETURN) {
+		OPENFILENAME ofn;
+		char szFile[260]; szFile[0] = '\0';
+		char szFileNoDir[100]; szFileNoDir[0] = '\0';
+
+		ZeroMemory(&ofn, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = GetConsoleWindow();
+		ofn.lpstrFile = szFile;
+		ofn.nMaxFile = sizeof(szFile);
+
+		ofn.lpstrFilter = "All\0*.*\0CSV File (*.csv)\0*.CSV\0";
+		ofn.nFilterIndex = 2;
+		ofn.lpstrFileTitle = szFileNoDir;
+		ofn.nMaxFileTitle = sizeof(szFileNoDir);
+		ofn.lpstrInitialDir = NULL;
+		ofn.lpstrTitle = "Export scoreboard to...";
+		ofn.lpstrDefExt = "csv";
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
+
+		if (GetSaveFileName(&ofn)) {
+			string fileName = szFile;
+			if (global.scoreboardList.ExportCsv(courseSelected.no, fileName)) {
+				cout << "Export complete." << endl;
+				_getch();
+			}
+			else {
+				cout << "ERROR: scoreboardList::ExportCsv" << endl;
+				_getch();
+			}
+		}
+	}
 }
