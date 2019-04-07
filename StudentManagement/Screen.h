@@ -71,16 +71,27 @@ void courseStudentRemoveScreen(Global &global);
 void courseStudentAddScreen(Global &global);
 
 void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, int &semNo, string IntroText = "", bool getch = true);
-void semesterListAllCourseScreen(Global &global);
+void semesterListAllCourseScreen_staff(Global &global); //staff only
 void courseListAllStudentScreen(Global &global);
 
 void lecturerAddScreen(Global &global); //staff only
 void lecturerListScreen(Global &global); 
 
-void courseViewAttendanceListScreenUtil(Global &global, Course selectedCourse, bool getch=true);
+//tra ve 1 neu co van de
+bool courseViewAttendanceListScreenUtil(Global &global, Course selectedCourse, bool getch=true);
 void courseViewAttendanceListScreen_staff(Global &global);
 
 bool courseViewScoreboardScreenUtil(Global &global, Course courseSelected, bool getch=true);
 void courseViewScoreboardScreen_staff(Global &global); //feature 24,25
+
+void semesterListAllCourseScreenUtil_lecturer(Global &global, vector<Course> &courseVec, bool getch); //for lecturer
+void semesterListAllCourseScreen_lecturer(Global &global);
+void courseListAllStudentScreen_lecturer(Global &global);
+void courseViewAttendanceListScreen_lecturer(Global &global);
+
+void attendanceEditScreen_lecturer(Global &global);
+void scoreboardImportFromCSVScreen(Global &global);
+void scoreboardEditScreen(Global &global);
+void courseViewScoreboardScreen_lecturer(Global &global);
 
 #endif // !SCREEN_H_
