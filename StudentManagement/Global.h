@@ -39,6 +39,7 @@ struct Global
 	ScoreboardList scoreboardList;
 	CourseList courseList;
 	CourseStudentList courseStudentList;
+	AttendanceList attendanceList;
 
 	bool currentlyLoggedIn;
 
@@ -53,6 +54,7 @@ struct Global
 		semesterList.importFromFile("SemesterList.txt");
 		scoreboardList.ImportFromfile("Scorelist.txt");
 		courseStudentList.ImportFromFile("coursestudent.txt");
+		attendanceList.importFromFile("attendance.txt");
 	}
 };
 

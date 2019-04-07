@@ -74,5 +74,12 @@ void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, 
 void semesterListAllCourseScreen(Global &global);
 void courseListAllStudentScreen(Global &global);
 
+void lecturerAddScreen(Global &global); //staff only
+void lecturerListScreen(Global &global); 
+
+void courseViewAttendanceListScreenUtil(Global &global, Course selectedCourse, bool getch=true);
+void courseViewAttendanceListScreen_staff(Global &global);
+
+void courseViewScoreboardScreen(Global &global); //feature 24,25
 
 #endif // !SCREEN_H_
