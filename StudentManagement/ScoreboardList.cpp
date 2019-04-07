@@ -100,14 +100,14 @@ bool ScoreboardList::ExportCsv(int courseno,string filename)
 	if (!fo.is_open()) return 0;
 	StudentList a;
 	a.importFromFile("student.txt");
-	fo << "ID" << ',' << "Name" << ',' << "Lab" << ',' << "Midterm" << ',' << "Final" << ',' << "Bonus" << endl;
+	fo << "ID" << ',' << "First name"<<','<<"Last name"<<','<< ',' << "Lab" << ',' << "Midterm" << ',' << "Final" << ',' << "Bonus" << endl;
 	for (int i = 0; i < (int)Scorelist.size(); ++i)
 	{
 		if (Scorelist[i].matchCourse(courseno))
 		{
 			Student b;
 			a.GetStudentByNo(Scorelist[i].studentNo, b);
-			fo << b.ID << ',' << b.firstName + b.lastName << ',' << Scorelist[i].lab << ',' << Scorelist[i].midterm << ','
+			fo << b.ID << ',' << b.firstName<<','<<b.lastName << ',' << Scorelist[i].lab << ',' << Scorelist[i].midterm << ','
 				<< Scorelist[i].final << ',' << Scorelist[i].bonus << endl;
 		}
 	}
@@ -143,10 +143,10 @@ bool ScoreboardList::ImportFromCSV(string filename, int courseNo, StudentList & 
 		{
 			tmp.courseNo = courseNo;
 			tmp.studentNo = a.no;
-			tmp.lab = stoi(row[1]);
-			tmp.midterm = stoi(row[2]);
-			tmp.final = stoi(row[3]);
-			tmp.bonus = stoi(row[4]);
+			tmp.lab = stoi(row[3]);
+			tmp.midterm = stoi(row[4]);
+			tmp.final = stoi(row[5]);
+			tmp.bonus = stoi(row[6]);
 			AddOrUpdate(tmp);
 		}
 
