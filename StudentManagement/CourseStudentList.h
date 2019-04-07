@@ -13,6 +13,8 @@
 struct CourseStudentList
 {
 	vector<CourseStudent> courseStudents;
+	//luu danh sach hsinh drop mon
+	vector<CourseStudent> UnenrollCourseStudents;
 
 	bool AddStudentToCourse(int noCourse, int noStudent, CourseList &cList, StudentList &stuList);
 	bool GetStudentOfCourse(int noCourse, vector<Student> &list, StudentList &stuList, CourseList &cList); 
@@ -20,6 +22,9 @@ struct CourseStudentList
 	bool Remove(int noCourse, int noStudent);
 	bool SaveToFile(string filename);
 	bool ImportFromFile(string filename);
+	bool ReadUnenrollFile(string filename);
+	bool SaveToFileUnenroll(string filename);
+	bool DropStudent(int stuNo, int courseNo, CourseList &cList, StudentList &stuList);
 };
 
 #endif // !COURSE_STUDENT_LIST_H

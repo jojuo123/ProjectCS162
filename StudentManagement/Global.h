@@ -55,6 +55,8 @@ struct Global
 		scoreboardList.ImportFromfile("Scorelist.txt");
 		courseStudentList.ImportFromFile("coursestudent.txt");
 		attendanceList.importFromFile("attendance.txt");
+		//them phan doc cac hsinh drop mon
+		courseStudentList.ReadUnenrollFile("dropcoursestudent.txt");
 	}
 };
 
