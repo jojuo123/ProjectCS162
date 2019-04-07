@@ -103,7 +103,7 @@ bool CourseList::importFromFile(string filename)
 	while (getline(fin, line))
 	{
 		row.clear();
-
+		if (line.length() == 0) break;
 		stringstream s(line);
 
 		while (getline(s, word, ','))
