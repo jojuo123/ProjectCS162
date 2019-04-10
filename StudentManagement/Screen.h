@@ -102,5 +102,6 @@ void studentViewScoreboard(Global &global);
 
 //use:currentStudent
 void studentViewAttendance(Global &global);
+void studentCheckIn(Global &global);
 
 #endif // !SCREEN_H_

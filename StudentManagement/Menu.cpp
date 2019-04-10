@@ -15,7 +15,11 @@ int WhereY() {
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	return csbi.dwCursorPosition.Y;
 }
-
+int WhereX() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwCursorPosition.X;
+}
 void resizeScreen(int width, int height) {
 	HANDLE hout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SMALL_RECT rect;
@@ -709,7 +713,7 @@ int mainMenuScreen(Global &global) {
 	cout << "6.Change password" << endl;
 	cout << "7.Log out" << endl;
 								*/
-							case 1: break;
+							case 1: studentCheckIn(global); break;
 							case 2: studentViewAttendance(global); break;
 							case 3: studentViewSchedule(global); break;
 							case 4: studentViewScoreboard(global); break;
@@ -2287,5 +2291,106 @@ void studentViewAttendance(Global &global) {
 	}
 
 	_getch();
+	delete[] x_w;
+}
+
+void studentCheckIn(Global &global) {
+	//<View his attendance>
+	system("CLS");
+	cout << "ATTENDANCE : " << global.currentStudent.firstName << " " << global.currentStudent.lastName << endl;
+	vector<Course> courseVec;
+	global.courseStudentList.GetCoursesOfStudent(global.currentStudent.no,
+		courseVec,
+		global.courseList,
+		global.stuList);
+	if (courseVec.empty()) {
+		cout << "You are not enrolled in any course." << endl;
+		cout << "So, no attendance list." << endl;
+		_getch();
+		return;
+	}
+
+	//Choose a course
+	//1,cs162,intro to prozip I(18ctt5),DBTien,
+		    //08:30 - 11:30 at I44      13/3/2019 -> 16/3/2019
+	int x_no = 0, x_ID = 5, x_name = 15, x_lec = 55, x_hour = 15, x_day = 55;
+	int cur_y = WhereY();
+
+	cout << endl;
+	for (unsigned int i = 0; i < courseVec.size(); ++i) {
+		gotoxy(x_no, cur_y); cout << i + 1;
+		gotoxy(x_ID, cur_y); cout << courseVec[i].ID;
+		gotoxy(x_name, cur_y); cout << courseVec[i].name;
+		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
+		gotoxy(x_lec, cur_y); cout << lec.firstName << " " << lec.lastName << endl;
+		gotoxy(x_hour, cur_y + 1); cout << courseVec[i].startHour << " - " << courseVec[i].endHour << " at " << courseVec[i].room;
+		gotoxy(x_day, cur_y + 1); cout << courseVec[i].startDate << " -> " << courseVec[i].endDate;
+		cur_y += 2;
+	}
+	cout << endl << endl;
+	int x;
+	cout << "Choose a course (0 to return): "; cin >> x;
+	if (x == 0 || x > (int)courseVec.size()) return;
+	Course selectedCourse = courseVec[x - 1];
+
+	int noWeek = selectedCourse.NumberOfWeek();
+
+	system("CLS");
+	cout << "Check-in for " << selectedCourse.ID << " - " << selectedCourse.name << endl;
+	int *x_w = new int[noWeek + 1];
+	x_w[1] = 0;
+	for (int i = 2; i <= noWeek; ++i) x_w[i] = x_w[i - 1] + 4;
+	cur_y = WhereY();
+
+	for (int i = 1; i <= noWeek; ++i) {
+		gotoxy(x_w[i], cur_y); cout << "W" << i;
+	}
+	cur_y++;
+
+	for (int i = 1; i <= noWeek; ++i) {
+		Attendance att;
+		string yum = global.attendanceList.getAttendance(i,
+			selectedCourse.no,
+			global.currentStudent.no,
+			att);
+		gotoxy(x_w[i], cur_y); cout << yum;
+	}
+	cout << endl << endl;
+
+	int cur_x = WhereX();
+	cur_y = WhereY();
+	do {
+		gotoxy(cur_x, cur_y); cout << "                                                  ";
+		gotoxy(cur_x, cur_y); cout << "Enter week number to check - in (0 to return) :   ";
+		cin >> x;
+		if (x<0 || x>noWeek) cout << "Please enter valid week number";
+	} while (x<0 || x>noWeek);
+	if (x == 0) return;
+
+	global.attendanceList.addOrUpdateAttendance(x,
+		selectedCourse.no,
+		global.currentStudent.no,
+		"P");
+
+	//Show new attendance
+	system("CLS");
+	cout << "Check-in for " << selectedCourse.ID << " - " << selectedCourse.name << endl;
+	for (int i = 1; i <= noWeek; ++i) {
+		gotoxy(x_w[i], cur_y); cout << "W" << i;
+	}
+	cur_y++;
+
+	for (int i = 1; i <= noWeek; ++i) {
+		Attendance att;
+		string yum = global.attendanceList.getAttendance(i,
+			selectedCourse.no,
+			global.currentStudent.no,
+			att);
+		gotoxy(x_w[i], cur_y); cout << yum;
+	}
+	cout << endl << endl;
+	cout << "Check-in complete." << endl;
+	_getch();
+
 	delete[] x_w;
 }
