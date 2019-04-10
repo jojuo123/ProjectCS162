@@ -76,8 +76,8 @@ void startScreen()
 		cout << "/_\\";
 		Sleep(160);
 	}
-	cout << "  Please press enter to get start!";
-	cin.get();
+	cout << "  Please any key to get start!";
+	_getch();
 	system("CLS");
 }
 
@@ -337,6 +337,8 @@ bool staffChangePasswordScreen(Global &global){
 	}
 }
 
+//OLD MENU
+/*
 int staffMenu(string name) {
 	system("cls");
 	cout << "Welcome, " << name << endl;
@@ -372,19 +374,107 @@ int staffMenu(string name) {
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
+} 
+*/
+int staffMenu(string name) {
+	system("cls");
+	cout << "Welcome, " << name << endl;
+	int x_classStudent = 0, y_classStudent = 1;
+	cout << "CLASS & STUDENT [1-9]" << endl;
+	gotoxy(x_classStudent, y_classStudent + 1);
+	cout << "1. Import student from <ClassName>.csv" << endl;
+	gotoxy(x_classStudent, y_classStudent + 2);
+	cout << "2. Add (manually) a new student" << endl;
+	gotoxy(x_classStudent, y_classStudent + 3);
+	cout << "3. Edit student profile" << endl;
+	gotoxy(x_classStudent, y_classStudent + 4);
+	cout << "4. Change class of a student" << endl;
+	gotoxy(x_classStudent, y_classStudent + 5);
+	cout << "5. Remove a student" << endl;
+	gotoxy(x_classStudent, y_classStudent + 6);
+	cout << "6. View all classes" << endl;
+	gotoxy(x_classStudent, y_classStudent + 7);
+	cout << "7. View all student in a class" << endl;
+	gotoxy(x_classStudent, y_classStudent + 8);
+	cout << "8. UnEnroll a student from a course" << endl;
+	gotoxy(x_classStudent, y_classStudent + 9);
+	cout << "9. Enroll a student to a course" << endl;
+
+	int x_yearSem = 50, y_yearSem = 1;
+	gotoxy(x_yearSem, y_yearSem);
+	cout << "ACADEMIC YEAR & SEMESTER [10-15]" << endl;
+	gotoxy(x_yearSem, y_yearSem + 1);
+	cout << "10. Create an academic year" << endl;
+	gotoxy(x_yearSem, y_yearSem + 2);
+	cout << "11. Delete an academic year" << endl;
+	gotoxy(x_yearSem, y_yearSem + 3);
+	cout << "12. View academic years" << endl;
+	gotoxy(x_yearSem, y_yearSem + 4);
+	cout << "13. Create a semester" << endl;
+	gotoxy(x_yearSem, y_yearSem + 5);
+	cout << "14. Delete a semester" << endl;
+	gotoxy(x_yearSem, y_yearSem + 6);
+	cout << "15. View all semesters" << endl;
+
+	int x_course = 0, y_course = 14;
+	gotoxy(x_course, y_course);
+	cout << "COURSE [16-21]" << endl;
+	gotoxy(x_course, y_course + 1);
+	cout << "16. Import Courses.CSV into semester" << endl;
+	gotoxy(x_course, y_course + 2);
+	cout << "17. Add (manually) new course" << endl;
+	gotoxy(x_course, y_course + 3);
+	cout << "18. Edit a course" << endl;
+	gotoxy(x_course, y_course + 4);
+	cout << "19. Remove a course" << endl;
+	gotoxy(x_course, y_course + 5);
+	cout << "20. View all courses in a semester" << endl;
+	gotoxy(x_course, y_course + 6);
+	cout << "21. View who enrolled in a course" << endl;
+
+	int x_lec = 50, y_lec = 9;
+	gotoxy(x_lec, y_lec);
+	cout << "LECTURER [22-23]" << endl;
+	gotoxy(x_lec, y_lec+1);
+	cout << "22. Create a lecturer account" << endl;
+	gotoxy(x_lec, y_lec+2);
+	cout << "23. View all lecturers" << endl;
+
+	int x_attScore = 50, y_attScore = 14;
+	gotoxy(x_attScore, y_attScore);
+	cout << "ATTENDANCE & SCOREBOARD [24-25]" << endl;
+	gotoxy(x_attScore, y_attScore+1);
+	cout << "24. View attendance list of a course" << endl;
+	gotoxy(x_attScore, y_attScore+2);
+	cout << "25. View scoreboard of a course" << endl;
+
+	int x_acc = 50, y_acc = 18;
+	gotoxy(x_acc, y_acc);
+	cout << "ACCOUNT SETTINGS [26-27]" << endl;
+	gotoxy(x_acc, y_acc+1);
+	cout << "26. Change password" << endl;
+	gotoxy(x_acc, y_acc+2);
+	cout << "27. Log out" << endl;
+
+	int x_choice = 0, y_choice = 22;
+	gotoxy(x_choice, y_choice);
+	cout << "Enter your choice: ";
+	int x; cin >> x;
+	return x;
 }
+
 int lecturerMenu(string firstName, string lastName){
 	system("cls");
 	cout << "Welcome, " << firstName << " " << lastName << endl;
-	cout << "1.View list of courses" << endl;
-	cout << "2.View students enrolled in a course" << endl;
-	cout << "3.Attendance list of a course" << endl;
-	cout << "4.Edit an attendance" << endl;
-	cout << "5.Import scoreboard from CSV" << endl;
-	cout << "6.View scoreboard" << endl;
-	cout << "7.Edit grade of a student" << endl;
-	cout << "8.Change password" << endl;
-	cout << "9.Log out" << endl;
+	cout << "1. View list of courses" << endl;
+	cout << "2. View students enrolled in a course" << endl;
+	cout << "3. View attendance list of a course" << endl;
+	cout << "4. Edit an attendance" << endl;
+	cout << "5. Import scoreboard from CSV" << endl;
+	cout << "6. View scoreboard" << endl;
+	cout << "7. Edit score of a student" << endl;
+	cout << "8. Change password" << endl;
+	cout << "9. Log out" << endl;
 	cout << "Enter your choice: ";
 	int x; cin >> x;
 	return x;
@@ -529,19 +619,19 @@ void studentEditScreen(Global &global) {
 		gotoxy(newProfX, 9); cout << "Class: " << cla.name;
 
 		string newID, newFirstName, newLastName, newGender, newDoB, newClass;
-		gotoxy(newProfX + 13, 5); if (getlineESC(newFirstName)) return;
-		gotoxy(newProfX + 12, 6); if (getlineESC(newLastName)) return;
+		gotoxy(newProfX + 12, 5); if (getlineESC(newFirstName)) return;
+		gotoxy(newProfX + 11, 6); if (getlineESC(newLastName)) return;
 		do {
-			gotoxy(newProfX + 15, 7);  cout << "              ";
-			gotoxy(newProfX + 15, 7);
+			gotoxy(newProfX + 14, 7);  cout << "              ";
+			gotoxy(newProfX + 14, 7);
 			if (getlineESC(newGender)) return;
 		} while (newGender[0] != 'M' && newGender[0] != 'm'&&newGender[0] != 'F'&&newGender[0] != 'f');
 		if (newGender[0] == 'm') newGender[0] = 'M';
 		if (newGender[0] == 'f') newGender[0] = 'F';
 
 		do {
-			gotoxy(newProfX + 19, 8);  cout << "              ";
-			gotoxy(newProfX + 19, 8);
+			gotoxy(newProfX + 18, 8);  cout << "              ";
+			gotoxy(newProfX + 18, 8);
 			if (getlineESC(newDoB)) return;
 		} while (!isValidDoB(newDoB));
 		
@@ -559,6 +649,13 @@ void studentEditScreen(Global &global) {
 			stu.gender = newGender[0];
 			stu.DoB = newDoB;
 			global.stuList.UpdateInfo(stu.no, stu);
+
+			cout << "Update info complete." << endl;
+			_getch();
+		}
+		else {
+			cout << "Discard all changes. Any key to return." << endl;
+			_getch();
 		}
 	}
 }
@@ -582,68 +679,75 @@ int mainMenuScreen(Global &global) {
 							switch (choice)
 							{
 								/*
-	cout << "1. Change password" << endl;
-	cout << "2. Import student from <ClassName>.csv" << endl;
-	cout << "3. Add (manually) a new student" << endl;
-	cout << "4. Edit student profile" << endl;
-	cout << "5. Change class of a student" << endl;
-	cout << "6. Remove a student" << endl;
-	cout << "7. List all classes" << endl;
-	cout << "8. List all student in a class" << endl;
+	cout << "1. Import student from <ClassName>.csv" << endl;
+	cout << "2. Add (manually) a new student" << endl;
+	cout << "3. Edit student profile" << endl;
+	cout << "4. Change class of a student" << endl;
+	cout << "5. Remove a student" << endl;
+	cout << "6. View all classes" << endl;
+	cout << "7. View all student in a class" << endl;
+	cout << "8. UnEnroll a student from a course" << endl;
+	cout << "9. Enroll a student to a course" << endl;
 
-	cout << "9. Create an academic year" << endl;
-	cout << "10. Delete an academic year" << endl;
-	cout << "11. View academic years" << endl;
-	cout << "12. Create a semester" << endl;
-	cout << "13. Delete a semester" << endl;
-	cout << "14. View all semesters" << endl;
-	cout << "15. Import Courses.CSV into semester" << endl;
-	cout << "16. Add (manually) new course" << endl;
-	cout << "17. Edit a course" << endl;
-	cout << "18. Remove a course" << endl;
+	cout << "10. Create an academic year" << endl;
+	cout << "11. Delete an academic year" << endl;
+	cout << "12. View academic years" << endl;
+	cout << "13. Create a semester" << endl;
+	cout << "14. Delete a semester" << endl;
+	cout << "15. View all semesters" << endl;
 
-	cout << "19. UnEnroll a student from a course" << endl;
-	cout << "20. Enroll a student to a course" << endl;
-	cout << "21. View all courses in a semester" << endl;
-	cout << "22. View who enrolled in a course" << endl;
-	cout << "23. Create a lecturer account" << endl;
-	cout << "24. View all lecturers" << endl;
-	cout << "25. View attendance list of a course" << endl;
-	cout << "26. View scoreboard of a course" << endl;
+	cout << "16. Import Courses.CSV into semester" << endl;
+	cout << "17. Add (manually) new course" << endl;
+	cout << "18. Edit a course" << endl;
+	cout << "19. Remove a course" << endl;
+	cout << "20. View all courses in a semester" << endl;
+	cout << "21. View who enrolled in a course" << endl;
+
+	cout << "22. Create a lecturer account" << endl;
+	cout << "23. View all lecturers" << endl;
+	cout << "24. View attendance list of a course" << endl;
+	cout << "25. View scoreboard of a course" << endl;
+
+	cout << "26. Change password" << endl;
 	cout << "27. Log out" << endl;
 								*/
-							case 1: staffChangePasswordScreen(global); break;
-							case 2: studentImportFromCSVScreen(global); break;
-							case 3: studentAddScreen(global); break;
-							case 4: studentEditScreen(global); break;
-							case 5: studentChangeClassScreen(global); break;
-							case 6: studentRemoveScreen(global); break;
-							case 7: classListScreen(global); break;
-							case 8: classStudentListScreen(global); break;
 
-							case 9: academicYearCreateScreen(global); break;
-							case 10: academicYearDeleteScreen(global); break;
-							case 11: {
+							case 1: studentImportFromCSVScreen(global); break;
+							case 2: studentAddScreen(global); break;
+							case 3: studentEditScreen(global); break;
+							case 4: studentChangeClassScreen(global); break;
+							case 5: studentRemoveScreen(global); break;
+							case 6: classListScreen(global); break;
+							case 7: classStudentListScreen(global); break;
+							case 8: courseStudentRemoveScreen(global); break;
+							case 9: courseStudentAddScreen(global); break;
+
+							case 10: academicYearCreateScreen(global); break;
+							case 11: academicYearDeleteScreen(global); break;
+							case 12: {
 										 system("CLS");
+										 cout << "ACADEMIC YEAR VIEW" << endl;
 										 academicYearScreenUtil(global, 0);
 										 _getch();
 										 break;
 							}
-							case 12: semesterCreateScreen(global); break;
-							case 13: semesterDeleteScreen(global); break;
-							case 14: semesterListScreen(global); break;
-							case 15: courseImportFromCSVScreen(global); break;
-							case 16: courseAddScreen(global); break;
-							case 17: courseEditScreen(global); break;
-							case 18: courseRemoveScreen(global); break;
-							case 19: courseStudentRemoveScreen(global); break;
-							case 20: courseStudentAddScreen(global); break;
-							case 21: semesterListAllCourseScreen_staff(global); break;
-							case 22: courseListAllStudentScreen(global); break;
-							case 23: lecturerAddScreen(global); break;
-							case 24: lecturerListScreen(global); break;
-							case 25: courseViewAttendanceListScreen_staff(global); break;
-							case 26: courseViewScoreboardScreen_staff(global); break;
+							case 13: semesterCreateScreen(global); break;
+							case 14: semesterDeleteScreen(global); break;
+							case 15: semesterListScreen(global); break;
+
+							case 16: courseImportFromCSVScreen(global); break;
+							case 17: courseAddScreen(global); break;
+							case 18: courseEditScreen(global); break;
+							case 19: courseRemoveScreen(global); break;
+							case 20: semesterListAllCourseScreen_staff(global); break;
+							case 21: courseListAllStudentScreen(global); break;
+
+							case 22: lecturerAddScreen(global); break;
+							case 23: lecturerListScreen(global); break;
+							case 24: courseViewAttendanceListScreen_staff(global); break;
+							case 25: courseViewScoreboardScreen_staff(global); break;
+
+							case 26: staffChangePasswordScreen(global); break;
 							case 27: logout(global); break;
 							default:
 								break;
@@ -665,15 +769,17 @@ int mainMenuScreen(Global &global) {
 							switch (choice)
 							{
 								/*
-	cout << "1.View list of courses" << endl;
-	cout << "2.View students enrolled in a course" << endl;
-	cout << "3.Attendance list of a course" << endl;
-	cout << "4.Edit an attendance" << endl;
-	cout << "5.Import scoreboard from CSV" << endl;
-	cout << "6.View scoreboard" << endl;
-	cout << "7.Edit grade of a student" << endl;
-	cout << "8.Change password" << endl;
-	cout << "9.Log out" << endl;
+
+	
+	cout << "1. View list of courses" << endl;
+	cout << "2. View students enrolled in a course" << endl;
+	cout << "3. View attendance list of a course" << endl;
+	cout << "4. Edit an attendance" << endl;
+	cout << "5. Import scoreboard from CSV" << endl;
+	cout << "6. View scoreboard" << endl;
+	cout << "7. Edit score of a student" << endl;
+	cout << "8. Change password" << endl;
+	cout << "9. Log out" << endl;
 								*/
 							case 1: semesterListAllCourseScreen_lecturer(global); break;
 							case 2: courseListAllStudentScreen_lecturer(global); break;
@@ -788,19 +894,19 @@ void studentAddScreen(Global &global) {
 	gotoxy(newProfX, 7); cout << "Class: ";
 
 	string newID, newFirstName, newLastName, newGender, newDoB, newClass;
-	gotoxy(newProfX + 13, 3); if (getlineESC(newFirstName)) return;
-	gotoxy(newProfX + 12, 4); if (getlineESC(newLastName)) return;
+	gotoxy(newProfX + 12, 3); if (getlineESC(newFirstName)) return;
+	gotoxy(newProfX + 11, 4); if (getlineESC(newLastName)) return;
 	do {
-		gotoxy(newProfX + 15, 5);  cout << "              ";
-		gotoxy(newProfX + 15, 5);
+		gotoxy(newProfX + 14, 5);  cout << "              ";
+		gotoxy(newProfX + 14, 5);
 		if (getlineESC(newGender)) return;
 	} while (newGender[0] != 'M' && newGender[0] != 'm'&&newGender[0] != 'F'&&newGender[0] != 'f');
 	if (newGender[0] == 'm') newGender[0] = 'M';
 	if (newGender[0] == 'f') newGender[0] = 'F';
 
 	do {
-		gotoxy(newProfX + 19, 6);  cout << "              ";
-		gotoxy(newProfX + 19, 6);
+		gotoxy(newProfX + 18, 6);  cout << "              ";
+		gotoxy(newProfX + 18, 6);
 		if (getlineESC(newDoB)) return;
 	} while (!isValidDoB(newDoB));
 
@@ -810,7 +916,7 @@ void studentAddScreen(Global &global) {
 	gotoxy(newProfX + 4, 4); if (getlineESC(newClass)) return;
 	} while (!isValidClass(newClass)); */
 	string newClassNoStr; 
-	gotoxy(newProfX + 8, 7); if (getlineESC(newClassNoStr)) return;
+	gotoxy(newProfX + 7, 7); if (getlineESC(newClassNoStr)) return;
 
 	gotoxy(newProfX, 9); string tmp;
 	cout << "Is that ok? [y/n]: "; if (getlineESC(tmp)) return;
@@ -837,7 +943,8 @@ void studentChangeClassScreen(Global &global) {
 	system("CLS");
 	Student stu;
 	string ID;
-	cout << "ID: "; if (getlineESC(ID)) return;
+	cout << "Change class of a student" << endl;
+	cout << "Enter student ID: "; if (getlineESC(ID)) return;
 	if (global.stuList.GetStudentByID(ID, stu)) {
 		cout << "Name: " << stu.firstName << " " << stu.lastName << endl;
 		cout << "Gender: " << stu.gender << endl;
@@ -886,7 +993,8 @@ void classListScreen(Global &global) {
 
 void classStudentListScreen(Global &global) {
 	system("CLS"); string classStr;
-	cout << "Student of class: "; getlineESC(classStr);
+	cout << "CLASS VIEW" << endl;
+	cout << "Enter class name: "; getlineESC(classStr);
 	Class cla;
 	if (global.classList.getClassByName(classStr, cla)) {
 		vector<Student> stuVec;
@@ -985,6 +1093,7 @@ int semesterSelectScreen(Global &global, string IntroText) { //tra ve semesterNo
 
 void semesterListScreen(Global &global) {
 	system("CLS");
+	cout << "SEMESTER VIEW" << endl;
 	vector<Semester> semVec;
 	semesterListScreenUtil(global, 0, semVec);
 	_getch();
@@ -1039,6 +1148,7 @@ void semesterDeleteScreen(Global &global) {
 }
 void academicYearCreateScreen(Global &global) {
 	system("CLS");
+	cout << "ACADEMIC YEAR VIEW" << endl;
 	academicYearScreenUtil(global, 0);
 	cout << endl << endl << "New academic year name: ";
 	string yearNameStr;
@@ -1188,6 +1298,8 @@ void courseEditScreen(Global &global) {
 	system("CLS");
 	string ID;
 	Course c;
+	cout << "COURSE EDIT" << endl;
+	cout << "Press ESC during typing to return" << endl;
 	cout << "Enter course ID: "; if (getlineESC(ID)) return;
 	if (global.courseList.GetCourseById(ID, c)) {
 		int x_newprof = 40, y_base = 2;
@@ -1242,9 +1354,9 @@ void courseEditScreen(Global &global) {
 		gotoxy(x_newprof+14, y_base + 3);
 		do {
 			string classStr;
-			gotoxy(x_newprof + 16, y_base + 3);
+			gotoxy(x_newprof + 15, y_base + 3);
 			cout << "                 ";
-			gotoxy(x_newprof + 16, y_base + 3);
+			gotoxy(x_newprof + 15, y_base + 3);
 			if (getlineESC(classStr)) return;
 			if (global.classList.getClassByName(classStr, cla)) {
 				newCourse.classNo = cla.no;
@@ -1297,6 +1409,8 @@ void courseEditScreen(Global &global) {
 		gotoxy(x_newprof+6, y_base + 10);
 		if (getlineESC(newCourse.room)) return;
 
+		newCourse.SemNo = c.SemNo;
+
 		if (global.courseList.Update(c.no, newCourse)) {
 			cout << "Info update complete." << endl;
 			_getch();
@@ -1321,6 +1435,7 @@ void courseRemoveScreen(Global &global) {
 	system("CLS");
 	string ID;
 	Course c;
+	cout << "COURSE DELETE" << endl;
 	cout << "Enter course ID: "; if (getlineESC(ID)) return;
 	if (global.courseList.GetCourseById(ID, c)) {
 		cout << "Name: " << c.name << endl;
@@ -1344,7 +1459,7 @@ void courseRemoveScreen(Global &global) {
 		string tmp; if (getlineESC(tmp)) return;
 		if (tmp[0] == 'y' || tmp[0] == 'Y') {
 			global.courseList.Remove(c.no);
-			cout << "Operation complete." << endl;
+			cout << "Remove complete." << endl;
 			_getch();
 		}
 	}
@@ -1426,6 +1541,11 @@ void courseStudentAddScreen(Global &global) {
 		vector<Course> courseVec;
 		semesterListAllCourseScreenUtil(global, courseVec, semNo, "AVAILABLE COURSES for " + global.currentStudent.ID
 			+ " : " + global.currentStudent.firstName + " " + global.currentStudent.lastName, 0);
+		if (courseVec.empty()) {
+			cout << "Any key to return" << endl;
+			_getch();
+			return;
+		}
 
 		cout << endl << endl;
 		int x;
@@ -1467,6 +1587,7 @@ void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, 
 		cout << "Sorry. There is no course available." << endl;
 		if (getch)
 			_getch();
+		return;
 	}
 	else
 	for (unsigned int i = 0; i < courseVec.size(); ++i) {
@@ -1492,20 +1613,20 @@ void semesterListAllCourseScreenUtil(Global &global, vector<Course> &courseVec, 
 void semesterListAllCourseScreen_staff(Global &global) {
 	vector<Course> courseVec;
 	int semNo;
-	semesterListAllCourseScreenUtil(global, courseVec, semNo, "All course view", 1);
+	semesterListAllCourseScreenUtil(global, courseVec, semNo, "ALL COURSE VIEW", 1);
 }
 
 void courseListAllStudentScreen(Global &global) {
 	int semNo;
 	vector<Course> courseVec;
-	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a semester", 0);
+	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a course", 0);
 	if (courseVec.empty()) {
 		cout << "Any key to return." << endl;
 		_getch();
 		return;
 	}
 	unsigned int x;
-	cout << endl << endl << "Select a course (0 to return): "; cin >> x;
+	cout << endl << endl << "Enter your choice (0 to return): "; cin >> x;
 	if (x == 0 || x > courseVec.size()) return;
 	Course courseSelected = courseVec[x - 1];
 
@@ -1513,6 +1634,7 @@ void courseListAllStudentScreen(Global &global) {
 	global.courseStudentList.GetStudentOfCourse(courseSelected.no, stuVec, global.stuList, global.courseList);
 	
 	system("CLS");
+	cout << "ENROLLED VIEW" << endl;
 	cout << "Course " << courseSelected.ID << " " << courseSelected.name << endl;
 	if (stuVec.empty()) {
 		cout << "No student enrolled in this course.\n" << endl;
@@ -1555,7 +1677,7 @@ void lecturerAddScreen(Global &global) {
 
 void lecturerListScreen(Global &global) {
 	system("CLS");
-	cout << "All lecturer view" << endl;
+	cout << "ALL LECTURER VIEW" << endl;
 
 	if (global.lecList.lecturers.empty()) {
 		cout << "No lecturer yet." << endl;
@@ -1600,6 +1722,7 @@ bool courseViewAttendanceListScreenUtil(Global &global, Course selectedCourse, b
 			_getch();
 		return 1;
 	}
+	cout << "P for Present, A for Absent" << endl;
 
 	int x_id = 0, x_name = 10;
 	int *x_w = new int[numWeek+1];
@@ -1636,7 +1759,14 @@ void courseViewAttendanceListScreen_staff(Global &global) {
 	//Select a course.
 	int semNo;
 	vector<Course> courseVec;
-	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a semester", 0);
+	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a course", 0);
+
+	if (courseVec.empty()) {
+		cout << "Any key to return." << endl;
+		_getch();
+		return;
+	}
+
 	unsigned int x;
 	cout << endl << endl << "Select a course (0 to return): "; cin >> x;
 	if (x == 0 || x > courseVec.size()) return;
@@ -1733,8 +1863,8 @@ void courseViewScoreboardScreen_staff(Global &global) {
 	//Select a course.
 	int semNo;
 	vector<Course> courseVec;
-	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a semester", 0);
-
+	semesterListAllCourseScreenUtil(global, courseVec, semNo, "Select a course", 0);
+	if (semNo == -1) return;
 	if (courseVec.empty()) {
 		cout << "Any key to return" << endl;
 		_getch();
@@ -2160,7 +2290,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Mon") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2168,7 +2299,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Tue") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2176,7 +2308,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Wed") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2184,7 +2317,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Thu") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2192,7 +2326,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Fri") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2200,7 +2335,8 @@ void studentViewSchedule(Global &global){
 	for (unsigned int i = 0; i < courseVec.size(); ++i)
 	if (courseVec[i].dayOfWeek == "Sat") {
 		Lecturer lec; global.lecList.GetLecByNo(courseVec[i].lecturerNo, lec);
-		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << endl;
+		cout << courseVec[i].ID << " " << courseVec[i].name << ". Lecturer: " << lec.firstName << " " << lec.lastName << ". Time: "
+			<< courseVec[i].startHour << " to " << courseVec[i].endHour << endl;
 	}
 	cout << endl;
 
@@ -2360,8 +2496,8 @@ void studentCheckIn(Global &global) {
 	int cur_x = WhereX();
 	cur_y = WhereY();
 	do {
-		gotoxy(cur_x, cur_y); cout << "                                                  ";
-		gotoxy(cur_x, cur_y); cout << "Enter week number to check - in (0 to return) :   ";
+		gotoxy(cur_x, cur_y); cout << "                                                        ";
+		gotoxy(cur_x, cur_y); cout << "Enter week number to check-in (0 to return): ";
 		cin >> x;
 		if (x<0 || x>noWeek) cout << "Please enter valid week number";
 	} while (x<0 || x>noWeek);
@@ -2375,6 +2511,7 @@ void studentCheckIn(Global &global) {
 	//Show new attendance
 	system("CLS");
 	cout << "Check-in for " << selectedCourse.ID << " - " << selectedCourse.name << endl;
+	cout << "P for Present, A for Absent" << endl;
 	for (int i = 1; i <= noWeek; ++i) {
 		gotoxy(x_w[i], cur_y); cout << "W" << i;
 	}
@@ -2394,3 +2531,25 @@ void studentCheckIn(Global &global) {
 
 	delete[] x_w;
 }
+
+/*
+//BONUS SECTION, NOT FINISHED
+void lecturerEditScreen(Global &global) {
+	system("CLS");
+	cout << "LECTURER EDIT" << endl;
+	cout << "Press ESC to discard changes and return." << endl;
+	string lecId;
+	cout << "Enter lecturer accound: "; if (getlineESC(lecId)) return;
+	
+	Lecturer lec; 
+	if (global.lecList.GetLecByID(lecId, lec)) {
+		cout << "Enter first name: "; 
+	}
+	else {
+		cout << "No such lecturer id exists." << endl;
+		cout << "Please try again." << endl;
+		_getch();
+		return;
+	}
+}
+//*/

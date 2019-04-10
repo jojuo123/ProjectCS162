@@ -116,7 +116,10 @@ int main()
 #else
 	//Do real thing
 	Global global;
-	//startScreen();
+
+	resizeScreen(150, 56);
+
+	startScreen();
 	mainMenuScreen(global);
 #endif
 	return 0;
