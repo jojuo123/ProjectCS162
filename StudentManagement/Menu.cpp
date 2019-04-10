@@ -40,7 +40,6 @@ void getlinePassword(string &password) {
 	password = "";
 	do {
 		ch = _getch();
-		if (ch == 0 || ch == 0xE0) ch = _getch();
 		if (ch == VK_RETURN)
 			return;
 		else
@@ -50,6 +49,9 @@ void getlinePassword(string &password) {
 				cout << "\b \b";
 			}
 			cout.flush();
+		}
+		else if (ch == 0 || ch == 0xE0) {
+			ch = _getch();
 		}
 		else if (ch>=32 || ch<=127) {
 			password += (char)ch;
