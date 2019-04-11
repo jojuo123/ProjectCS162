@@ -1,1 +1,10 @@
-Some nonsense header for consistency.
+1,cs161,duong loi cua dinh,6,01/01/1975,30/04/1975,Mon,13:30,15:30,I44,4,1
+2,cs162,duong loi cua dinh,6,01/01/1975,30/04/1975,Tue,13:30,15:30,I45,4,1
+3,cs163,duong loi cua dinh,6,01/01/1975,30/04/1975,Wed,13:30,15:30,I46,4,1
+4,cs164,duong loi cua dinh,6,01/01/1975,30/04/1975,Thu,13:30,15:30,I47,4,1
+5,LINEAR,Linear Alg,9,18/3/2019,28/4/2019,Mon,08:30,11:30,I63,4,1
+6,cs161,duong loi cua dinh,6,01/01/1975,30/04/1975,Mon,13:30,15:30,I44,6,2
+7,cs162,duong loi cua dinh,6,01/01/1975,30/04/1975,Tue,13:30,15:30,I45,6,2
+8,cs163,duong loi cua dinh,6,01/01/1975,30/04/1975,Wed,13:30,15:30,I46,6,2
+9,cs164,duong loi cua dinh,6,01/01/1975,30/04/1975,Thu,13:30,15:30,I47,6,2
+10,CS162,Cong San,7,11/04/2019,30/04/2019,Tue,07:30,23:30,Quoc Hoi,6,1

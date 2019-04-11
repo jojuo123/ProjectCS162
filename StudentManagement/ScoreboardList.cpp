@@ -100,7 +100,7 @@ bool ScoreboardList::ExportCsv(int courseno,string filename)
 	if (!fo.is_open()) return 0;
 	StudentList a;
 	a.importFromFile("student.txt");
-	fo << "ID" << ',' << "First name"<<','<<"Last name"<<','<< ',' << "Lab" << ',' << "Midterm" << ',' << "Final" << ',' << "Bonus" << endl;
+	fo << "ID" << ',' << "First name"<<','<<"Last name"<< ',' << "Lab" << ',' << "Midterm" << ',' << "Final" << ',' << "Bonus" << endl;
 	for (int i = 0; i < (int)Scorelist.size(); ++i)
 	{
 		if (Scorelist[i].matchCourse(courseno))
