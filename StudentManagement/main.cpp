@@ -117,9 +117,9 @@ int main()
 	//Do real thing
 	Global global;
 
-	resizeScreen(150, 56);
+	resizeScreen(150, 54);
 
-	startScreen();
+	//startScreen();
 	mainMenuScreen(global);
 #endif
 	return 0;

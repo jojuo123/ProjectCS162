@@ -7,6 +7,7 @@
 #include <vector>
 #include "Student.h"
 #include "Course.h"
+#include <cctype>
 using namespace std;
 
 struct Class

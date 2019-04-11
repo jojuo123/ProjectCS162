@@ -31,7 +31,7 @@ void logout(Global &global);
 //From this onward, is NEED-FURTHER-UPDATE section
 
 //TESTED SECTION
-int studentMenu(string firstName, string lastName);
+int studentMenu(Global &global);
 int staffMenu(string firstName, string lastName);
 int lecturerMenu(string firstName, string lastName);
 bool lecturerLoginScreen(Global &global);
