@@ -119,7 +119,7 @@ int main()
 
 	resizeScreen(150, 54);
 
-	//startScreen();
+	startScreen();
 	mainMenuScreen(global);
 #endif
 	return 0;
