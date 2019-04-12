@@ -1,0 +1,6 @@
+no,course id,course name,class name,lecAcc,stDate,edDate,DoW,stHour,edHour,room
+1,cs162,Introduction to Computer Science II,18ctt5,dbtien,5/9/2018,5/12/2018,Mon,13:30,17:30,I44
+2,cs162,Introduction to Computer Science II,18ctt6,dbtien,5/9/2018,5/12/2018,Tue,13:30,17:30,I42
+3,mth252,Calculus II,18ctt5,nhanh,5/9/2018,5/12/2018,Wed,07:30,11:30,Hoi Truong I
+4,mth252,Calculus II,18ctt6,nhanh,5/9/2018,5/12/2018,Fri,7:30,11:30,I53
+,,,,,,,,,,
