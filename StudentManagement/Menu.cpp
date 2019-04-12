@@ -1,5 +1,6 @@
 #include "Screen.h"
 #include <string>
+#include <iomanip>
 
 void TextColor(int x)
 {
@@ -735,7 +736,7 @@ int mainMenuScreen(Global &global) {
 							case 12: {
 										 system("CLS");
 										 cout << "ACADEMIC YEAR VIEW" << endl;
-										 academicYearScreenUtil(global, 0);
+										 academicYearScreenUtil(global, WhereY());
 										 _getch();
 										 break;
 							}
@@ -869,6 +870,8 @@ void studentImportFromCSVScreen(Global &global) {
 		string fileName = szFile;
 		if (importStudentFile(fileName)) {
 			cout << "Import complete." << endl;
+			global.classList.importFromFile("class.txt");
+			global.stuList.importFromFile("student.txt");
 		}
 		else {
 			cout << "There is some error." << endl;
@@ -1126,7 +1129,7 @@ void semesterListScreen(Global &global) {
 	system("CLS");
 	cout << "SEMESTER VIEW" << endl;
 	vector<Semester> semVec;
-	semesterListScreenUtil(global, 0, semVec);
+	semesterListScreenUtil(global, WhereY(), semVec);
 	_getch();
 }
 
@@ -1246,6 +1249,9 @@ void courseImportFromCSVScreen(Global &global) {
 		string fileName = szFile;
 		if (global.courseList.importFromFileCSV(fileName, global.classList, global.lecList, semNo)) {
 			cout << "Import complete." << endl;
+			global.courseList.importFromFile("course.txt");
+			global.lecList.importFromFile("lecturer.txt");
+			global.classList.importFromFile("class.txt");
 		}
 		else {
 			cout << "There is some error." << endl;
@@ -1878,7 +1884,7 @@ bool courseViewScoreboardScreenUtil(Global &global, Course courseSelected, bool 
 	gotoxy(x_lab, cur_y); cout << "Lab";
 	gotoxy(x_bonus, cur_y); cout << "Bonus";
 	cur_y++;
-
+	cout << fixed << setprecision(2);
 	for (unsigned int i = 0; i < stuVec.size(); ++i) {
 		gotoxy(x_no, cur_y); cout << i+1;
 		gotoxy(x_id, cur_y); cout << stuVec[i].ID;
@@ -1886,13 +1892,13 @@ bool courseViewScoreboardScreenUtil(Global &global, Course courseSelected, bool 
 
 		//Lay diem
 		Scoreboard sc = global.scoreboardList.GetScoreboard(stuVec[i].no, courseSelected.no);
-
 		gotoxy(x_midterm, cur_y); cout << sc.midterm;
 		gotoxy(x_final, cur_y); cout << sc.final;
 		gotoxy(x_lab, cur_y); cout << sc.lab;
 		gotoxy(x_bonus, cur_y); cout << sc.bonus;
 		cur_y++;
 	}
+	cout << setprecision(0);
 	if (getch)
 		_getch();
 	return 0;
@@ -2252,6 +2258,8 @@ void scoreboardImportFromCSVScreen(Global &global) {
 		string fileName = szFile;
 		if (global.scoreboardList.ImportFromCSV(fileName, courseSelected.no, global.stuList)) {
 			cout << "Import complete." << endl;
+			global.scoreboardList.ImportFromfile("Scorelist.txt");
+
 		}
 		else {
 			cout << "There is some error." << endl;
@@ -2480,6 +2488,7 @@ void studentViewScoreboard(Global &global) {
 	gotoxy(x_bonus, cur_y); cout << "Bonus";
 	cur_y++;
 
+	cout << fixed << setprecision(2);
 	for (unsigned int i = 0; i < courseVec.size(); ++i) {
 		gotoxy(x_course, cur_y); cout << courseVec[i].ID << " - " << courseVec[i].name;
 		Scoreboard sc = global.scoreboardList.GetScoreboard(global.currentStudent.no, courseVec[i].no);
@@ -2489,6 +2498,7 @@ void studentViewScoreboard(Global &global) {
 		gotoxy(x_bonus, cur_y); cout << sc.bonus;
 		cur_y++;
 	}
+	cout << setprecision(0);
 	_getch();
 }
 

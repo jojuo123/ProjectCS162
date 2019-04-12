@@ -3,6 +3,8 @@
 #define _ScoreboardList_h_
 #include "Scoreboard.h"
 #include "StudentList.h"
+#include "CourseList.h"
+#include "CourseStudentList.h"
 
 struct ScoreboardList
 {

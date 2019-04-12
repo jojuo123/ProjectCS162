@@ -12,7 +12,7 @@ bool CourseList::importFromFileCSV(string fileName, ClassList &classRef, Lecture
 	FILE *fin = fopen(fileName.c_str(), "r");
 	if (fin == NULL) return 0;
 	char buf[1000], cid[20], cname[100], classstr[20], lecacc[40], stdate[11], eddate[11],
-		dow[5], sthour[10], edhour[10], room[10];
+		dow[5], sthour[10], edhour[10], room[100];
 	int cno;
 	fgets(buf, 1000, fin); //ignore first line.
 	do {

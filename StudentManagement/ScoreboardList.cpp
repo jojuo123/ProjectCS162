@@ -1,11 +1,12 @@
 #include "ScoreboardList.h"
+#include <iomanip>
 
 bool ScoreboardList::ImportFromfile(string filename)
 {
 	ifstream fin;
 	fin.open(filename);
 	if (!fin.is_open()) return 0;
-	
+	Scorelist.clear();
 	string line, word;
 	vector<string> row;
 	while (getline(fin, line))
@@ -20,10 +21,10 @@ bool ScoreboardList::ImportFromfile(string filename)
 		Scoreboard sc;
 		sc.courseNo = stoi(row[0]);
 		sc.studentNo = stoi(row[1]);
-		sc.lab = stoi(row[2]);
-		sc.midterm = stoi(row[3]);
-		sc.final = stoi(row[4]);
-		sc.bonus = stoi(row[5]);
+		sc.lab = stod(row[2]);
+		sc.midterm = stod(row[3]);
+		sc.final = stod(row[4]);
+		sc.bonus = stod(row[5]);
 
 		Scorelist.push_back(sc);
 	}
@@ -100,7 +101,10 @@ bool ScoreboardList::ExportCsv(int courseno,string filename)
 	if (!fo.is_open()) return 0;
 	StudentList a;
 	a.importFromFile("student.txt");
+	CourseList cList;
+	cList.importFromFile("course.txt");
 	fo << "ID" << ',' << "First name"<<','<<"Last name"<< ',' << "Lab" << ',' << "Midterm" << ',' << "Final" << ',' << "Bonus" << endl;
+	/*
 	for (int i = 0; i < (int)Scorelist.size(); ++i)
 	{
 		if (Scorelist[i].matchCourse(courseno))
@@ -110,6 +114,22 @@ bool ScoreboardList::ExportCsv(int courseno,string filename)
 			fo << b.ID << ',' << b.firstName<<','<<b.lastName << ',' << Scorelist[i].lab << ',' << Scorelist[i].midterm << ','
 				<< Scorelist[i].final << ',' << Scorelist[i].bonus << endl;
 		}
+	}*/
+	CourseStudentList cstuList;
+	cstuList.ImportFromFile("coursestudent.txt");
+	vector<Student> list;
+	if (cstuList.GetStudentOfCourse(courseno, list, a, cList))
+	{
+		fo << fixed << setprecision(2);
+		for (int i = 0; i < (int)list.size(); i++)
+		{
+			fo << list[i].ID << "," << list[i].firstName << "," << list[i].lastName << ",";
+			Scoreboard sc;
+			sc = GetScoreboard(list[i].no, courseno);
+			
+			fo << sc.lab << "," << sc.midterm << "," << sc.final << "," << sc.bonus << endl;
+		}
+		fo << setprecision(0);
 	}
 	fo.close();
 	return true;
@@ -143,10 +163,10 @@ bool ScoreboardList::ImportFromCSV(string filename, int courseNo, StudentList & 
 		{
 			tmp.courseNo = courseNo;
 			tmp.studentNo = a.no;
-			tmp.lab = stoi(row[3]);
-			tmp.midterm = stoi(row[4]);
-			tmp.final = stoi(row[5]);
-			tmp.bonus = stoi(row[6]);
+			tmp.lab = stod(row[3]);
+			tmp.midterm = stod(row[4]);
+			tmp.final = stod(row[5]);
+			tmp.bonus = stod(row[6]);
 			AddOrUpdate(tmp);
 		}
 

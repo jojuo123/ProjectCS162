@@ -5,7 +5,7 @@ bool SemesterList::importFromFile(string filename)
 	ifstream fin;
 	fin.open(filename);
 	if (!fin.is_open()) return 0;
-
+	SemList.clear();
 	string line, word;
 	vector<string> row;
 
